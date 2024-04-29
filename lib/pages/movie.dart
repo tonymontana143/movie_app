@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/pages/actors_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
 import 'package:movie_app/pages/news_list_page.dart';
-import 'package:movie_app/pages/staff_list_page.dart';
+import 'package:movie_app/pages/stuff_list_page.dart';
 import 'package:movie_app/theme/colors.dart'; 
 
 void main() {
@@ -15,8 +15,7 @@ class MoviePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Rise of the Planet of the Apes'),
-          backgroundColor: primaryColor, 
+          title: Text('Planet of the Apes'),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -24,19 +23,25 @@ class MoviePage extends StatelessWidget {
             children: [
               TrailerButton(
                 trailerLink: 'https://youtu.be/P1yKN0llkrY?si=WLVd9vjfXmExY9US',
-              ),
-              Description(
-                description: 'A substance designed to help the brain repair itself gives advanced intelligence to a chimpanzee who leads an ape uprising. A substance designed to help the brain repair itself gives advanced intelligence to a chimpanzee who leads an ape uprising.',
-                time: '2h 12min',
-                publicationDate: '2011',
-                director: 'Rupert Wyatt',
-              ),
+              ),             
               SizedBox(height: 20), 
-              ButtonList(), 
-              StaffListButton(),
               ActorsListButton(),
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ActorWidget(
+                    imageAsset: 'images/james_franco.jpeg',
+                    name: 'Actor 1',
+                  ),
+                  ActorWidget(
+                    imageAsset: 'images/andy.jpeg',
+                    name: 'Actor 2',
+                  ),
+                ],
+              ),
+           ButtonList(), 
               NewsListButton(),
-              CommentsListButton(),
+              CommentsListButton(),              
             ],
           ),
         ),
@@ -66,7 +71,6 @@ class TrailerButton extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              // Handle trailer button press
             },
             child: Text('Watch Trailer'),
             style: ElevatedButton.styleFrom(
@@ -77,7 +81,28 @@ class TrailerButton extends StatelessWidget {
     );
   }
 }
+class ActorWidget extends StatelessWidget {
+  final String imageAsset;
+  final String name;
 
+  ActorWidget({required this.imageAsset, required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Image.asset(
+          imageAsset,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+        SizedBox(height: 5),
+        Text(name),
+      ],
+    );
+  }
+}
 class Description extends StatelessWidget {
   final String description;
   final String time;
@@ -103,7 +128,7 @@ class Description extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18.0,
-              color: primaryColor, // Using primaryColor from colors.dart
+              color: primaryColor,
             ),
           ),
           Text(description),
@@ -129,7 +154,7 @@ class StaffListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => StaffListPage()),
+          MaterialPageRoute(builder: (context) => StuffListPage()),
         );
       },
       child: Text('Staff List'),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/pages/actors_list_page.dart';
+import 'package:movie_app/pages/comments_page.dart';
+import 'package:movie_app/pages/news_list_page.dart';
+
 
 void main() {
   runApp(MoviePage());
@@ -24,10 +28,11 @@ class MoviePage extends StatelessWidget {
                 time: '2h 12min',
                 publicationDate: 'April 29, 2024',
               ),
-              ButtonList(),
-              ActorsList(),
-              NewsList(),
-              CommentsList(),
+              SizedBox(height: 20), // Added some spacing between description and buttons
+              ButtonList(), // Added buttons here
+              ActorsListButton(),
+              NewsListButton(),
+              CommentsListButton(),
             ],
           ),
         ),
@@ -49,15 +54,15 @@ class TrailerButton extends StatelessWidget {
         children: [
           Center(
             child: Image.asset(
-              'images/movie_img.jpg', 
-              width: 200, 
-              height: 200, 
-              fit: BoxFit.cover, 
+              'images/movie_img.jpg',
+              width: 200,
+              height: 200,
+              fit: BoxFit.cover,
             ),
           ),
           ElevatedButton(
             onPressed: () {
-              
+              // Handle trailer button press
             },
             child: Text('Watch Trailer'),
           ),
@@ -66,7 +71,6 @@ class TrailerButton extends StatelessWidget {
     );
   }
 }
-
 
 class Description extends StatelessWidget {
   final String description;
@@ -106,27 +110,52 @@ class Description extends StatelessWidget {
 class ButtonList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(); 
   }
 }
 
-class ActorsList extends StatelessWidget {
+
+class ActorsListButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ActorsListPage()),
+        );
+      },
+      child: Text('Actors List'),
+    );
   }
 }
 
-class NewsList extends StatelessWidget {
+class NewsListButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NewsListPage()),
+        );
+      },
+      child: Text('News List'),
+    );
   }
 }
 
-class CommentsList extends StatelessWidget {
+class CommentsListButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CommentsListPage()),
+        );
+      },
+      child: Text('Comments List'),
+    );
   }
 }

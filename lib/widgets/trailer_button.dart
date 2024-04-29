@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 class TrailerButton extends StatelessWidget {
   final String trailerLink;
 
-  TrailerButton({required this.trailerLink});
+  const TrailerButton({super.key, required this.trailerLink});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class TrailerButton extends StatelessWidget {
       onPressed: () {
         _launchURL(trailerLink);
       },
-      child: Text('Watch Trailer'),
+      child: const Text('Watch Trailer'),
     );
   }
 

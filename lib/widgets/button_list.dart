@@ -4,6 +4,8 @@ import 'package:movie_app/pages/news_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
 
 class ButtonList extends StatelessWidget {
+  const ButtonList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,28 +15,28 @@ class ButtonList extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ActorsListPage()),
+              MaterialPageRoute(builder: (context) => const ActorsListPage()),
             );
           },
-          child: Text('Actors List'),
+          child: const Text('Actors List'),
         ),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NewsListPage()),
+              MaterialPageRoute(builder: (context) => const NewsListPage()),
             );
           },
-          child: Text('News List'),
+          child: const Text('News List'),
         ),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CommentsListPage()),
+              MaterialPageRoute(builder: (context) => const CommentsListPage()),
             );
           },
-          child: Text('Comments List'),
+          child: const Text('Comments List'),
         ),
       ],
     );

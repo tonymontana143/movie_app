@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class NewsListPage extends StatelessWidget {
+  const NewsListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('news'),
+        title: const Text('news'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('news'),
       ),
     );

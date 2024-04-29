@@ -6,18 +6,20 @@ import 'package:movie_app/pages/stuff_list_page.dart';
 import 'package:movie_app/theme/colors.dart'; 
 
 void main() {
-  runApp(MoviePage());
+  runApp(const MoviePage());
 }
 
 class MoviePage extends StatelessWidget {
+  const MoviePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Planet of the Apes'),
+          title: const Text('Planet of the Apes'),
         ),
-        body: SingleChildScrollView(
+        body: const SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,7 +55,7 @@ class MoviePage extends StatelessWidget {
 class TrailerButton extends StatelessWidget {
   final String trailerLink;
 
-  TrailerButton({required this.trailerLink});
+  const TrailerButton({super.key, required this.trailerLink});
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +74,9 @@ class TrailerButton extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
             },
-            child: Text('Watch Trailer'),
             style: ElevatedButton.styleFrom(
             ),
+            child: const Text('Watch Trailer'),
           ),
         ],
       ),
@@ -85,7 +87,7 @@ class ActorWidget extends StatelessWidget {
   final String imageAsset;
   final String name;
 
-  ActorWidget({required this.imageAsset, required this.name});
+  const ActorWidget({super.key, required this.imageAsset, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,7 @@ class ActorWidget extends StatelessWidget {
           height: 100,
           fit: BoxFit.cover,
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Text(name),
       ],
     );
@@ -109,7 +111,7 @@ class Description extends StatelessWidget {
   final String publicationDate;
   final String director;
 
-  Description({
+  const Description({super.key, 
     required this.description,
     required this.time,
     required this.publicationDate,
@@ -132,7 +134,7 @@ class Description extends StatelessWidget {
             ),
           ),
           Text(description),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text('Duration: $time'),
           Text('Publication Date: $publicationDate'),
         ],
@@ -142,75 +144,85 @@ class Description extends StatelessWidget {
 }
 
 class ButtonList extends StatelessWidget {
+  const ButtonList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container();
   }
 }
 class StaffListButton extends StatelessWidget {
+  const StaffListButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => StuffListPage()),
+          MaterialPageRoute(builder: (context) => const StuffListPage()),
         );
       },
-      child: Text('Staff List'),
       style: ElevatedButton.styleFrom(
       ),
+      child: const Text('Staff List'),
     );
   }
 }
 
 class ActorsListButton extends StatelessWidget {
+  const ActorsListButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ActorsListPage()),
+          MaterialPageRoute(builder: (context) => const ActorsListPage()),
         );
       },
-      child: Text('Actors List'),
       style: ElevatedButton.styleFrom(
       ),
+      child: const Text('Actors List'),
     );
   }
 }
 
 class NewsListButton extends StatelessWidget {
+  const NewsListButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => NewsListPage()),
+          MaterialPageRoute(builder: (context) => const NewsListPage()),
         );
       },
-      child: Text('News List'),
       style: ElevatedButton.styleFrom(
       ),
+      child: const Text('News List'),
     );
   }
 }
 
 class CommentsListButton extends StatelessWidget {
+  const CommentsListButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CommentsListPage()),
+          MaterialPageRoute(builder: (context) => const CommentsListPage()),
         );
       },
-      child: Text('Comments List'),
       style: ElevatedButton.styleFrom(
       ),
+      child: const Text('Comments List'),
     );
   }
 }

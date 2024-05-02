@@ -3,91 +3,224 @@ import 'package:movie_app/pages/actors_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
 import 'package:movie_app/pages/news_list_page.dart';
 import 'package:movie_app/pages/stuff_list_page.dart';
-import 'package:movie_app/theme/colors.dart'; 
+import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
+import 'dart:ui';
 
 void main() {
   runApp(const MoviePage());
 }
 
 class MoviePage extends StatelessWidget {
-  const MoviePage({super.key});
+  const MoviePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(), // Set the theme to dark
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Planet of the Apes'),
-        ),
-        body: const SingleChildScrollView(
+        backgroundColor: Colors.black, // Set the background color to black
+        body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TrailerButton(
-                trailerLink: 'https://youtu.be/P1yKN0llkrY?si=WLVd9vjfXmExY9US',
-              ),             
-              SizedBox(height: 20), 
-              ActorsListButton(),
-               Row(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          height: 260,
+                          child: ClipRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                              child: Image.asset(
+                                'images/movie_img.jpg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Planet of the Apes',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Colors.white.withOpacity(0.1), // Adjust the opacity to control the blur effect
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      _launchURL('https://www.youtube.com/watch?v=P1yKN0llkrY&t=4s');
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.transparent, // Make button background transparent
+                                      shadowColor: Colors.transparent, // Make button shadow transparent
+                                      elevation: 0, // Remove the elevation
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.0), // Set the button shape
+                                      ),
+                                    ),
+                                    child: const Text('Watch Trailer'),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0), // Set the container shape
+                        color: Colors.white.withOpacity(0.1), // Adjust the opacity to control the blur effect
+                      ),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Publication Details',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_today),
+                              SizedBox(width: 5),
+                              Text(
+                                'Publication Date:',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                '11.08.2011',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Icon(Icons.access_time),
+                              SizedBox(width: 5),
+                              Text(
+                                'Time:',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                '105 min',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              const ActorsListButton(),
+              const SizedBox(height: 20),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ActorWidget(
-                    imageAsset: 'images/james_franco.jpeg',
-                    name: 'Actor 1',
-                  ),
-                  ActorWidget(
-                    imageAsset: 'images/andy.jpeg',
-                    name: 'Actor 2',
-                  ),
+                  ActorWidget(imageAsset: 'images/james_franco.jpeg', name: 'James Franco', role: 'Will Rodman'),
+                  ActorWidget(imageAsset: 'images/andy.jpeg', name: 'Andy Serkis', role: 'Caesar'),
                 ],
               ),
-           ButtonList(), 
-              NewsListButton(),
-              CommentsListButton(),              
+              const SizedBox(height: 20),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0), // Set the container shape
+                  color: Colors.white.withOpacity(0.1), // Adjust the opacity to control the blur effect
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    NewsListButton(),
+                    CommentsListButton(),
+                    StaffListButton(),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Rating:',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 8.0), // Adjust the left padding as needed
+                      child: Row(
+                        children: [
+                          Icon(Icons.star, color: Colors.yellow),
+                          Icon(Icons.star, color: Colors.yellow),
+                          Icon(Icons.star, color: Colors.yellow),
+                          Icon(Icons.star, color: Colors.yellow),
+                          Icon(Icons.star_border, color: Colors.yellow),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              ButtonList(),
+
             ],
           ),
         ),
       ),
     );
   }
-}
 
-class TrailerButton extends StatelessWidget {
-  final String trailerLink;
-
-  const TrailerButton({super.key, required this.trailerLink});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Center(
-            child: Image.asset(
-              'images/movie_img.jpg',
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-            },
-            style: ElevatedButton.styleFrom(
-            ),
-            child: const Text('Watch Trailer'),
-          ),
-        ],
-      ),
-    );
+  // Function to launch URL
+  void _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
+
 class ActorWidget extends StatelessWidget {
   final String imageAsset;
   final String name;
+  final String role;
 
-  const ActorWidget({super.key, required this.imageAsset, required this.name});
+  const ActorWidget({Key? key, required this.imageAsset, required this.name, required this.role}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -100,59 +233,26 @@ class ActorWidget extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         const SizedBox(height: 5),
-        Text(name),
+        Text(
+          name,
+          style: const TextStyle(
+            fontFamily: 'Arial', // Change the font for actor names
+          ),
+        ),
+        Text(
+          role,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
       ],
     );
   }
 }
-class Description extends StatelessWidget {
-  final String description;
-  final String time;
-  final String publicationDate;
-  final String director;
 
-  const Description({super.key, 
-    required this.description,
-    required this.time,
-    required this.publicationDate,
-    required this.director,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Description:',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
-              color: primaryColor,
-            ),
-          ),
-          Text(description),
-          const SizedBox(height: 10),
-          Text('Duration: $time'),
-          Text('Publication Date: $publicationDate'),
-        ],
-      ),
-    );
-  }
-}
-
-class ButtonList extends StatelessWidget {
-  const ButtonList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
 class StaffListButton extends StatelessWidget {
-  const StaffListButton({super.key});
+  const StaffListButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +264,10 @@ class StaffListButton extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
+        elevation: 0, // Remove the elevation
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0), // Set the button shape
+        ),
       ),
       child: const Text('Staff List'),
     );
@@ -171,7 +275,7 @@ class StaffListButton extends StatelessWidget {
 }
 
 class ActorsListButton extends StatelessWidget {
-  const ActorsListButton({super.key});
+  const ActorsListButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -183,6 +287,10 @@ class ActorsListButton extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
+        elevation: 0, // Remove the elevation
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0), // Set the button shape
+        ),
       ),
       child: const Text('Actors List'),
     );
@@ -190,7 +298,7 @@ class ActorsListButton extends StatelessWidget {
 }
 
 class NewsListButton extends StatelessWidget {
-  const NewsListButton({super.key});
+  const NewsListButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -202,6 +310,10 @@ class NewsListButton extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
+        elevation: 0, // Remove the elevation
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0), // Set the button shape
+        ),
       ),
       child: const Text('News List'),
     );
@@ -209,7 +321,7 @@ class NewsListButton extends StatelessWidget {
 }
 
 class CommentsListButton extends StatelessWidget {
-  const CommentsListButton({super.key});
+  const CommentsListButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -221,8 +333,21 @@ class CommentsListButton extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
+        elevation: 0, // Remove the elevation
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0), // Set the button shape
+        ),
       ),
       child: const Text('Comments List'),
     );
+  }
+}
+
+class ButtonList extends StatelessWidget {
+  const ButtonList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

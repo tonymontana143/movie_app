@@ -39,26 +39,27 @@ class _ActorsListPageState extends State<ActorsListPage> {
       ),
       body: ListView.builder(
         itemCount: actors.length,
-        itemBuilder: (BuildContext context, int index){
+        itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ActorPage(
+                MaterialPageRoute(
+                  builder: (context) => ActorPage(
                     actorName: actors[index].name,
                     actorSurname: actors[index].surname,
                     actorRole: actors[index].role,
-                    imgUrl: actors[index].imgUrl)
-                )
+                    imgUrl: actors[index].imgUrl,
+                  ),
+                ),
               );
             },
-              child: ActorInfoBox(
-                  index: index + 1,
-                  actorName: actors[index].name,
-                  actorSurname: actors[index].surname,
-                  actorRole: actors[index].role,
-                  actorImg: actors[index].imgUrl
-              )
+            child: ActorCard(
+              actorName: actors[index].name,
+              actorSurname: actors[index].surname,
+              actorRole: actors[index].role,
+              imgUrl: actors[index].imgUrl,
+            ),
           );
         },
       ),
@@ -66,66 +67,61 @@ class _ActorsListPageState extends State<ActorsListPage> {
   }
 }
 
-class ActorInfoBox extends StatelessWidget {
-  final int index;
+class ActorCard extends StatelessWidget {
   final String actorName;
   final String actorSurname;
   final String actorRole;
-  final String actorImg;
+  final String imgUrl;
 
-  const ActorInfoBox({
-    super.key,
-    required this.index,
+  const ActorCard({
+    Key? key,
     required this.actorName,
     required this.actorSurname,
     required this.actorRole,
-    required this.actorImg,
-  });
+    required this.imgUrl,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0, bottom: 20.0, right: 15.0, left: 15.0),
-      child: Row(
-        children: [
-          Text(
-            "$index",
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF212121)
+    return Card(
+      margin: const EdgeInsets.all(10),
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(imgUrl),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0, left: 10.0),
-            child: Image.network(
-              actorImg,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Text("Failed to load the image!");
-              },
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "$actorName $actorSurname",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    actorRole,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "$actorName $actorSurname",
-                style: const TextStyle(
-                    color: Color(0xFF212121),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16
-                ),
-              ),
-              Text(
-                actorRole,
-                style: const TextStyle(color: Color(0xFF212121)),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

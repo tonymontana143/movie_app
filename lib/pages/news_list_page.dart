@@ -26,8 +26,10 @@ class NewsListPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News'),
+        title: const Text('News', style: TextStyle(color: Colors.white)),
+        backgroundColor: Color(0xFF132C33), // Deep blue
       ),
+      backgroundColor: Color(0xFF1E1E1E), // Dark gray
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -46,20 +48,34 @@ class NewsListPage extends StatelessWidget {
               _showNewsDialog(context, newsTitle, author, date, link, text); // Show dialog on tap
             },
             child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               margin: const EdgeInsets.all(10),
+              color: Color(0xFF253238), // Darker blue-gray
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.network(
-                    imageUrl,
-                    height: 100,
-                    width: 100,
-                    fit: BoxFit.cover,
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       newsTitle,
-                      style: const TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -77,36 +93,48 @@ class NewsListPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(newsTitle),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Author: $author'),
-              Text('Date: $date'),
-              const SizedBox(height: 10),
-              Text(text),
-              const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {
-                  _launchURL(link); // Open the link when tapped
-                },
-                child: const Text(
-                  'Read More',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
+          title: Text(
+            newsTitle,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Color(0xFF132C33), // Deep blue
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Author: $author', style: TextStyle(color: Colors.white)),
+                Text('Date: $date', style: TextStyle(color: Colors.white)),
+                const SizedBox(height: 10),
+                Text(
+                  text,
+                  style: TextStyle(color: Colors.white),
+                ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    _launchURL(link); // Open the link when tapped
+                  },
+                  child: const Text(
+                    'Read More',
+                    style: TextStyle(
+                      color: Color(0xFFD4AF37), // Gold
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Close'),
+              child: const Text('Close', style: TextStyle(color: Colors.white)),
             ),
           ],
         );
@@ -183,6 +211,7 @@ class NewsListPage extends StatelessWidget {
       default:
         return '';
     }
+
   }
 
   // Function to get text based on news title

@@ -198,7 +198,7 @@ class NewsListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const NewsListPage()),
+          MaterialPageRoute(builder: (context) => const  NewsListPage()),
         );
       },
       style: ElevatedButton.styleFrom(

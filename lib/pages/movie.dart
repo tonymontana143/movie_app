@@ -3,6 +3,7 @@ import 'package:movie_app/pages/actors_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
 import 'package:movie_app/pages/news_list_page.dart';
 import 'package:movie_app/pages/stuff_list_page.dart';
+import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
 import 'dart:ui';
 
 void main() {
@@ -62,7 +63,9 @@ class MoviePage extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _launchURL('https://www.youtube.com/watch?v=XtFI7SNtVpY');
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.transparent, // Make button background transparent
                                       shadowColor: Colors.transparent, // Make button shadow transparent
@@ -193,12 +196,22 @@ class MoviePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ButtonList(),
-              
+
             ],
           ),
         ),
       ),
     );
+  }
+
+  // Function to launch URL
+  void _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 

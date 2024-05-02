@@ -6,7 +6,7 @@ class NewsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Map<String, String> newsImages = {
+    const Map<String, String> newsImages = { // Map of news titles to their corresponding image URLs
       'New Planet of the Apes Sequel': 'https://images.thedirect.com/media/article_full/planet-of-the-apes-4.jpg',
       'Celebrate performance': 'https://m.media-amazon.com/images/M/MV5BZGI4NTEwNTAtZDcwMi00MDkxLTg1OGYtNTZmMzE3ZDljNzVlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg',
       'Will the movie release?': 'https://img.etimg.com/thumb/width-1200,height-900,imgsize-9086,resizemode-75,msid-103845041/news/international/us/when-will-the-kingdom-of-the-planet-of-the-apes-release-heres-what-we-know-so-far.jpg',
@@ -36,10 +36,10 @@ class NewsListPage extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final String newsTitle = newsTitles[index];
           final String imageUrl = newsImages[newsTitle] ?? ''; // Get the image URL from the map
-          final String author = _getAuthor(newsTitle);
-          final String date = _getDate(newsTitle);
-          final String link = _getLink(newsTitle);
-          final String text = _getText(newsTitle);
+          final String author = _getAuthor(newsTitle); // Get Author
+          final String date = _getDate(newsTitle); // Get Date
+          final String link = _getLink(newsTitle); // Get Link
+          final String text = _getText(newsTitle); // Get text
 
           return GestureDetector(
             onTap: () {
@@ -71,6 +71,7 @@ class NewsListPage extends StatelessWidget {
     );
   }
 
+  // Function to show news details in a dialog
   void _showNewsDialog(BuildContext context, String newsTitle, String author, String date, String link, String text) {
     showDialog(
       context: context,
@@ -124,6 +125,7 @@ class NewsListPage extends StatelessWidget {
   }
 
 
+  // Function to get author based on news title
   String _getAuthor(String newsTitle) {
     switch (newsTitle) {
       case 'New Planet of the Apes Sequel':
@@ -143,6 +145,7 @@ class NewsListPage extends StatelessWidget {
     }
   }
 
+  // Function to get date based on news title
   String _getDate(String newsTitle) {
     switch (newsTitle) {
       case 'New Planet of the Apes Sequel':
@@ -162,6 +165,7 @@ class NewsListPage extends StatelessWidget {
     }
   }
 
+  // Function to get link based on news title
   String _getLink(String newsTitle) {
     switch (newsTitle) {
       case 'New Planet of the Apes Sequel':
@@ -181,6 +185,7 @@ class NewsListPage extends StatelessWidget {
     }
   }
 
+  // Function to get text based on news title
   String _getText(String newsTitle) {
     switch (newsTitle) {
       case 'New Planet of the Apes Sequel':

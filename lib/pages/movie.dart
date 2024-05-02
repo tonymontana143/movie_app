@@ -64,7 +64,7 @@ class MoviePage extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      _launchURL('https://www.youtube.com/watch?v=XtFI7SNtVpY');
+                                      _launchURL('https://www.youtube.com/watch?v=P1yKN0llkrY&t=4s');
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.transparent, // Make button background transparent

@@ -12,7 +12,7 @@ class NewsListPage extends StatelessWidget {
       body: GridView.count(
         crossAxisCount: 2, // Number of columns in the grid
         children: List.generate(
-          12, // Number of items in the grid
+          10, // Number of items in the grid
               (index) {
             return Card(
               margin: const EdgeInsets.all(10),

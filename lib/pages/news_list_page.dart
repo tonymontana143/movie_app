@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 
 class NewsListPage extends StatelessWidget {
-  const NewsListPage({Key? key}) : super(key: key);
+  const NewsListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class NewsListPage extends StatelessWidget {
                 onTap: () {
                   _launchURL(link); // Open the link when tapped
                 },
-                child: Text(
+                child: const Text(
                   'Read More',
                   style: TextStyle(
                     color: Colors.blue,
@@ -106,7 +106,7 @@ class NewsListPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close'),
+              child: const Text('Close'),
             ),
           ],
         );

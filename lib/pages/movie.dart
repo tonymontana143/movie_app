@@ -52,7 +52,7 @@ class MoviePage extends StatelessWidget {
                                 'Rise of the Planet of the Apes',
                                 style: TextStyle(
                                   fontFamily: "Poppins",
-                                  fontSize: 25,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFFC7C8CC)
                                 ),
@@ -105,7 +105,7 @@ class MoviePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(top: 8.0, bottom: 10.0),
+                            padding: EdgeInsets.only(top: 8.0, bottom: 5.0),
                             child: Text(
                               'Details',
                               style: TextStyle(
@@ -142,7 +142,7 @@ class MoviePage extends StatelessWidget {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [

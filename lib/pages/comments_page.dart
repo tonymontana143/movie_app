@@ -50,34 +50,34 @@ class CommentsListPage extends StatelessWidget {
               starsOutOfFive: 2,
             ),
             const SizedBox(height: 20),
-            Text(
-              'Add Your Comment:',
-              style: GoogleFonts.lato(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'Enter your comment here',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                },
-                child: const Text('Submit'),
-              ),
-            ),
+            // Text(
+            //   'Add Your Comment:',
+            //   style: GoogleFonts.lato(
+            //     color: Colors.white,
+            //     fontSize: 20,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // const SizedBox(height: 10),gi
+            // TextField(
+            //   decoration: InputDecoration(
+            //     filled: true,
+            //     fillColor: Colors.white,
+            //     hintText: 'Enter your comment here',
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(10),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 10),
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //     },
+            //     child: const Text('Submit'),
+            //   ),
+            // ),
           ],
         ),
       ),

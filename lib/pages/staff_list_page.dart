@@ -213,12 +213,14 @@ class StaffDetailsPanel extends StatelessWidget {
        
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
+
             child: Text(
               getStaffInfo(staff),
               style: const TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 14,
                 color: Colors.black,
+
               ),
             ),
           ),

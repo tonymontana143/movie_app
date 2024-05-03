@@ -5,87 +5,88 @@ class NewsListPage extends StatelessWidget {
   const NewsListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const Map<String, String> newsImages = { // Map of news titles to their corresponding image URLs
-      'New Planet of the Apes Sequel': 'https://images.thedirect.com/media/article_full/planet-of-the-apes-4.jpg',
-      'Celebrate performance': 'https://m.media-amazon.com/images/M/MV5BZGI4NTEwNTAtZDcwMi00MDkxLTg1OGYtNTZmMzE3ZDljNzVlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg',
-      'Will the movie release?': 'https://img.etimg.com/thumb/width-1200,height-900,imgsize-9086,resizemode-75,msid-103845041/news/international/us/when-will-the-kingdom-of-the-planet-of-the-apes-release-heres-what-we-know-so-far.jpg',
-      'Complete History': 'https://www.rollingstone.com/wp-content/uploads/2018/06/rs-18960-apes-1800-1404228817.jpg',
-      'Director describes the movie': 'https://assetsio.gnwcdn.com/Kingdom-of-the-Planet-of-the-Apes_tyrant.jpg?width=1200&height=630&fit=crop&enable=upscale&auto=webp',
-      'Rise of franchise': 'https://i.kinja-img.com/image/upload/c_fit,q_60,w_645/d020dd59b90e8125909fb16afe1ea47f.jpg',
-    };
+Widget build(BuildContext context) {
+  const Map<String, String> newsImages = {
+    'New Planet of the Apes Sequel': 'https://images.thedirect.com/media/article_full/planet-of-the-apes-4.jpg',
+    'Celebrate performance': 'https://m.media-amazon.com/images/M/MV5BZGI4NTEwNTAtZDcwMi00MDkxLTg1OGYtNTZmMzE3ZDljNzVlXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg',
+    'Will the movie release?': 'https://img.etimg.com/thumb/width-1200,height-900,imgsize-9086,resizemode-75,msid-103845041/news/international/us/when-will-the-kingdom-of-the-planet-of-the-apes-release-heres-what-we-know-so-far.jpg',
+    'Complete History': 'https://www.rollingstone.com/wp-content/uploads/2018/06/rs-18960-apes-1800-1404228817.jpg',
+    'Director describes the movie': 'https://assetsio.gnwcdn.com/Kingdom-of-the-Planet-of-the-Apes_tyrant.jpg?width=1200&height=630&fit=crop&enable=upscale&auto=webp',
+    'Rise of franchise': 'https://i.kinja-img.com/image/upload/c_fit,q_60,w_645/d020dd59b90e8125909fb16afe1ea47f.jpg',
+  };
 
-    const List<String> newsTitles = [
-      'New Planet of the Apes Sequel',
-      'Celebrate performance',
-      'Will the movie release?',
-      'Complete History',
-      'Director describes the movie',
-      'Rise of franchise',
-    ];
+  const List<String> newsTitles = [
+    'New Planet of the Apes Sequel',
+    'Celebrate performance',
+    'Will the movie release?',
+    'Complete History',
+    'Director describes the movie',
+    'Rise of franchise',
+  ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('News', style: TextStyle(color: Colors.white)),
-        backgroundColor: Color(0xFF132C33), // Deep blue
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('News', style: TextStyle(color: Colors.white)),
+      backgroundColor: const Color(0xFF132C33), // Deep blue
+    ),
+    backgroundColor: const Color(0xFF1E1E1E), // Dark gray
+    body: GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
       ),
-      backgroundColor: Color(0xFF1E1E1E), // Dark gray
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemCount: newsTitles.length,
-        itemBuilder: (BuildContext context, int index) {
-          final String newsTitle = newsTitles[index];
-          final String imageUrl = newsImages[newsTitle] ?? ''; // Get the image URL from the map
-          final String author = _getAuthor(newsTitle); // Get Author
-          final String date = _getDate(newsTitle); // Get Date
-          final String link = _getLink(newsTitle); // Get Link
-          final String text = _getText(newsTitle); // Get text
+      itemCount: newsTitles.length,
+      itemBuilder: (BuildContext context, int index) {
+        final String newsTitle = newsTitles[index];
+        final String imageUrl = newsImages[newsTitle] ?? ''; // Get the image URL from the map
+        final String author = _getAuthor(newsTitle); // Get Author
+        final String date = _getDate(newsTitle); // Get Date
+        final String link = _getLink(newsTitle); // Get Link
+        final String text = _getText(newsTitle); // Get text
 
-          return GestureDetector(
-            onTap: () {
-              _showNewsDialog(context, newsTitle, author, date, link, text); // Show dialog on tap
-            },
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              margin: const EdgeInsets.all(10),
-              color: Color(0xFF253238), // Darker blue-gray
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      newsTitle,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+        return GestureDetector(
+          onTap: () {
+            _showNewsDialog(context, newsTitle, author, date, link, text); // Show dialog on tap
+          },
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-          );
-        },
-      ),
-    );
-  }
+            margin: const EdgeInsets.all(10),
+            color: const Color(0xFF253238), // Darker blue-gray
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    newsTitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}
 
   // Function to show news details in a dialog
   void _showNewsDialog(BuildContext context, String newsTitle, String author, String date, String link, String text) {

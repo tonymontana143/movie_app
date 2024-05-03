@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class ReviewWidget extends StatefulWidget {
@@ -6,6 +8,7 @@ class ReviewWidget extends StatefulWidget {
   final String reviewText;
   final int starsOutOfFive;
 
+  // ignore: use_super_parameters
   const ReviewWidget({
     Key? key,
     required this.name,
@@ -32,7 +35,7 @@ Widget build(BuildContext context) {
         CircleAvatar(
           backgroundImage: NetworkImage(widget.avatarUrl),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,11 +45,11 @@ Widget build(BuildContext context) {
                 children: [
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.star,
                         color: Colors.amber,
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text('${widget.starsOutOfFive} / 5'),
                     ],
                   ),
@@ -68,20 +71,20 @@ Widget build(BuildContext context) {
                           });
                         },
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text('$_likeCount'),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 widget.name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(widget.reviewText),
             ],
           ),

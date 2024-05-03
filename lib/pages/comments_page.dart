@@ -3,16 +3,17 @@ import 'package:movie_app/widgets/review_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CommentsListPage extends StatelessWidget {
+  // ignore: use_super_parameters
   const CommentsListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comments'),
+        title: const Text('Comments'),
       ),
       body: Container(
-        color: Color(0xFF132C33), // Deep blue background color
+        color: const Color(0xFF132C33), // Deep blue background color
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,27 +29,27 @@ class CommentsListPage extends StatelessWidget {
                 ),
               ),
             ),
-            ReviewWidget(
+            const ReviewWidget(
               name: 'John Doe',
               avatarUrl: 'https://example.com/avatar.jpg',
               reviewText: 'Great movie! Highly recommended.',
               starsOutOfFive: 5,
             ),
-            SizedBox(height: 20),
-            ReviewWidget(
+            const SizedBox(height: 20),
+            const ReviewWidget(
               name: 'Jane Smith',
               avatarUrl: 'https://example.com/avatar.jpg',
               reviewText: 'Average movie. Could be better.',
               starsOutOfFive: 3,
             ),
-            SizedBox(height: 20),
-            ReviewWidget(
+            const SizedBox(height: 20),
+            const ReviewWidget(
               name: 'Alice Johnson',
               avatarUrl: 'https://example.com/avatar.jpg',
               reviewText: 'Disappointing. Expected more.',
               starsOutOfFive: 2,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Add Your Comment:',
               style: GoogleFonts.lato(
@@ -57,7 +58,7 @@ class CommentsListPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               decoration: InputDecoration(
                 filled: true,
@@ -68,13 +69,13 @@ class CommentsListPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                 },
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ),
           ],

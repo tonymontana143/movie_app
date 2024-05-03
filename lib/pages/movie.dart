@@ -119,8 +119,8 @@ class MoviePage extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Padding(
-                             padding: const EdgeInsets.all(8.0),
-                                 child: const Text(
+                             padding: EdgeInsets.all(8.0),
+                                 child: Text(
                                     'A substance designed to help the brain repair itself gives advanced intelligence to a chimpanzee who leads an ape uprising.', textAlign: TextAlign.center,
                                       style: TextStyle(
                                    fontFamily: "Poppins",

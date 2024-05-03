@@ -59,7 +59,7 @@ Widget build(BuildContext context) {
               children: [
                 Expanded(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                     child: Image.network(
                       imageUrl,
                       fit: BoxFit.cover,
@@ -96,23 +96,23 @@ Widget build(BuildContext context) {
         return AlertDialog(
           title: Text(
             newsTitle,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          backgroundColor: Color(0xFF132C33), // Deep blue
+          backgroundColor: const Color(0xFF132C33), // Deep blue
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Author: $author', style: TextStyle(color: Colors.white)),
-                Text('Date: $date', style: TextStyle(color: Colors.white)),
+                Text('Author: $author', style: const TextStyle(color: Colors.white)),
+                Text('Date: $date', style: const TextStyle(color: Colors.white)),
                 const SizedBox(height: 10),
                 Text(
                   text,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 10),
                 GestureDetector(

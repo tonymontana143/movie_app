@@ -18,8 +18,8 @@ class StaffModel {
 
 class StaffListPage extends StatefulWidget {
   const StaffListPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StaffListPage> createState() => _StaffListPageState();
@@ -137,10 +137,10 @@ class StaffCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const StaffCard({
-    Key? key,
+    super.key,
     required this.staff,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -196,6 +196,7 @@ class StaffCard extends StatelessWidget {
 class StaffDetailsPanel extends StatelessWidget {
   final StaffModel staff;
 
+  // ignore: use_super_parameters
   const StaffDetailsPanel({
     Key? key,
     required this.staff,
@@ -254,7 +255,7 @@ class StaffDetailsPanel extends StatelessWidget {
 
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: StaffListPage(),
   ));
 }

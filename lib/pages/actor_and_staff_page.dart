@@ -18,7 +18,7 @@ class ActorStaffPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("$actorName $actorSurname")
+        title: Text("$actorName $actorSurname", style: const TextStyle(fontFamily: "Poppins"))
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20.0),
@@ -39,6 +39,7 @@ class ActorStaffPage extends StatelessWidget {
                child: Text(
                  "$actorName $actorSurname",
                  style: const TextStyle(
+                     fontFamily: "Poppins",
                    fontSize: 20,
                    fontWeight: FontWeight.w800
                  ),
@@ -49,6 +50,7 @@ class ActorStaffPage extends StatelessWidget {
                child: Text(
                  actorRole,
                  style: const TextStyle(
+                     fontFamily: "Poppins",
                      fontSize: 16,
                      fontWeight: FontWeight.w500
                  ),

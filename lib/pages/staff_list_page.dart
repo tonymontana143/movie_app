@@ -29,7 +29,7 @@ class _StaffListPageState extends State<StaffListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Staff")
+          title: const Text("Staff", style: TextStyle(fontFamily: "Poppins"),)
       ),
       body: ListView.builder(
           itemCount: staff.length,
@@ -100,6 +100,7 @@ class StaffCard extends StatelessWidget {
                   Text(
                     "$staffName $staffSurname",
                     style: const TextStyle(
+                      fontFamily: "Poppins",
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -107,6 +108,7 @@ class StaffCard extends StatelessWidget {
                   Text(
                     position,
                     style: TextStyle(
+                      fontFamily: "Poppins",
                       fontSize: 16,
                       color: Colors.grey[600],
                     ),

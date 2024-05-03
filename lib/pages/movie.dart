@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/pages/actors_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
@@ -52,6 +51,7 @@ class MoviePage extends StatelessWidget {
                               const Text(
                                 'Rise of the Planet of the Apes',
                                 style: TextStyle(
+                                  fontFamily: "Poppins",
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFFC7C8CC)
@@ -80,6 +80,7 @@ class MoviePage extends StatelessWidget {
                                     child: const Text(
                                         'TRAILER',
                                         style: TextStyle(
+                                          fontFamily: "Poppins",
                                           color: Color(0xFFEEEEEE),
                                           fontWeight: FontWeight.w600,
                                           letterSpacing: 1.2
@@ -108,6 +109,7 @@ class MoviePage extends StatelessWidget {
                             child: Text(
                               'Details',
                               style: TextStyle(
+                                  fontFamily: "Poppins",
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.2,
@@ -124,6 +126,7 @@ class MoviePage extends StatelessWidget {
                               Text(
                                 'Date:',
                                 style: TextStyle(
+                                  fontFamily: "Poppins",
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -131,7 +134,10 @@ class MoviePage extends StatelessWidget {
                               SizedBox(width: 5),
                               Text(
                                 '11.08.2011',
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 14
+                                ),
                               ),
                             ],
                           ),
@@ -145,6 +151,7 @@ class MoviePage extends StatelessWidget {
                                 Text(
                                   'Length:',
                                   style: TextStyle(
+                                    fontFamily: "Poppins",
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -152,7 +159,7 @@ class MoviePage extends StatelessWidget {
                                 SizedBox(width: 5),
                                 Text(
                                   '105 min',
-                                  style: TextStyle(fontSize: 14),
+                                  style: TextStyle(fontSize: 14, fontFamily: "Poppins"),
                                 ),
                               ],
                             ),
@@ -196,7 +203,7 @@ class MoviePage extends StatelessWidget {
                   children: [
                     const Text(
                       'Rating',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Poppins"),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 8.0), // Adjust the left padding as needed
@@ -255,7 +262,7 @@ class ActorWidget extends StatelessWidget {
         Text(
           name,
           style: const TextStyle(
-            fontFamily: 'Arial', // Change the font for actor names
+            fontFamily: "Poppins", // Change the font for actor names
           ),
         ),
         Text(
@@ -263,6 +270,7 @@ class ActorWidget extends StatelessWidget {
           style: const TextStyle(
             fontSize: 12,
             color: Colors.grey,
+            fontFamily: "Poppins"
           ),
         ),
       ],
@@ -288,7 +296,7 @@ class StaffListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('Staff List', style: TextStyle(color: Color(0xFF793FDF))),
+      child: const Text('Staff List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
     );
   }
 }
@@ -311,7 +319,7 @@ class ActorsListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('Actors List', style: TextStyle(color: Color(0xFF793FDF))),
+      child: const Text('Actors List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
     );
   }
 }
@@ -334,7 +342,7 @@ class NewsListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('News List', style: TextStyle(color: Color(0xFF793FDF))),
+      child: const Text('News List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
     );
   }
 }
@@ -357,7 +365,7 @@ class CommentsListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('Comments List', style: TextStyle(color: Color(0xFF793FDF))),
+      child: const Text('Comments List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
     );
   }
 }

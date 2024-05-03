@@ -35,7 +35,7 @@ class _ActorsListPageState extends State<ActorsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cast"),
+        title: const Text("Cast", style: TextStyle(fontFamily: "Poppins")),
       ),
       body: ListView.builder(
         itemCount: actors.length,
@@ -106,6 +106,7 @@ class ActorCard extends StatelessWidget {
                   Text(
                     "$actorName $actorSurname",
                     style: const TextStyle(
+                      fontFamily: "Poppins",
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -113,6 +114,7 @@ class ActorCard extends StatelessWidget {
                   Text(
                     actorRole,
                     style: TextStyle(
+                      fontFamily: "Poppins",
                       fontSize: 16,
                       color: Colors.grey[600],
                     ),

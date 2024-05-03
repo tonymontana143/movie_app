@@ -26,12 +26,12 @@ class CommentsListPage extends StatelessWidget {
               reviewText: 'Average movie. Could be better.',
               starsOutOfFive: 3,
             ),
-            ReviewWidget(
-              name: 'Alice Johnson',
-              avatarUrl: 'https://example.com/avatar.jpg',
-              reviewText: 'Disappointing. Expected more.',
-              starsOutOfFive: 2,
-            ),
+            // ReviewWidget(
+            //   name: 'Alice Johnson',
+            //   avatarUrl: 'https://example.com/avatar.jpg',
+            //   reviewText: 'Disappointing. Expected more.',
+            //   starsOutOfFive: 2,
+            // ),
           ],
         ),
       ),

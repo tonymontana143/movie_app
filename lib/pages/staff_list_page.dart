@@ -79,7 +79,7 @@ class StaffCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(10),
-      elevation: 4,
+      elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
@@ -89,7 +89,7 @@ class StaffCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 40,
+              radius: 45,
               backgroundImage: NetworkImage(imgUrl),
             ),
             const SizedBox(width: 15),

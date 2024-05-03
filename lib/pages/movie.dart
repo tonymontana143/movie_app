@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/pages/actors_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
@@ -21,7 +22,7 @@ class MoviePage extends StatelessWidget {
         backgroundColor: Colors.black, // Set the background color to black
         body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -39,6 +40,7 @@ class MoviePage extends StatelessWidget {
                               child: Image.asset(
                                 'images/movie_img.jpg',
                                 fit: BoxFit.cover,
+                                opacity: const AlwaysStoppedAnimation(.7),
                               ),
                             ),
                           ),
@@ -52,6 +54,7 @@ class MoviePage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
+                                  color: Color(0xFFC7C8CC)
                                 ),
                               ),
                               const SizedBox(height: 10),
@@ -61,7 +64,7 @@ class MoviePage extends StatelessWidget {
                                   color: Colors.white.withOpacity(0.1), // Adjust the opacity to control the blur effect
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 3.0),
+                                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5.0),
                                   child: ElevatedButton(
                                     onPressed: () {
                                       _launchURL('https://www.youtube.com/watch?v=P1yKN0llkrY&t=4s');
@@ -74,7 +77,14 @@ class MoviePage extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(20.0), // Set the button shape
                                       ),
                                     ),
-                                    child: const Text('Watch Trailer'),
+                                    child: const Text(
+                                        'TRAILER',
+                                        style: TextStyle(
+                                          color: Color(0xFFEEEEEE),
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 1.2
+                                        )
+                                    ),
                                   ),
                                 ),
                               ),
@@ -88,25 +98,31 @@ class MoviePage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0), // Set the container shape
-                        color: Colors.white.withOpacity(0.1), // Adjust the opacity to control the blur effect
+                        color: Colors.white.withOpacity(0.0), // Adjust the opacity to control the blur effect
                       ),
                       child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Publication Details',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: EdgeInsets.only(top: 8.0, bottom: 10.0),
+                            child: Text(
+                              'Details',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                                color: Color(0xFFEEEEEE)
+                              ),
                             ),
                           ),
                           SizedBox(height: 10),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Icon(Icons.calendar_today),
                               SizedBox(width: 5),
                               Text(
-                                'Publication Date:',
+                                'Date:',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -119,24 +135,27 @@ class MoviePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Icon(Icons.access_time),
-                              SizedBox(width: 5),
-                              Text(
-                                'Time:',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.access_time),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Length:',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                '105 min',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ],
+                                SizedBox(width: 5),
+                                Text(
+                                  '105 min',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -176,18 +195,18 @@ class MoviePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Rating:',
+                      'Rating',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 8.0), // Adjust the left padding as needed
                       child: const Row(
                         children: [
-                          Icon(Icons.star, color: Colors.yellow),
-                          Icon(Icons.star, color: Colors.yellow),
-                          Icon(Icons.star, color: Colors.yellow),
-                          Icon(Icons.star, color: Colors.yellow),
-                          Icon(Icons.star_border, color: Colors.yellow),
+                          Icon(Icons.star, color: Color(0xFFe8b923)),
+                          Icon(Icons.star, color: Color(0xFFe8b923)),
+                          Icon(Icons.star, color: Color(0xFFe8b923)),
+                          Icon(Icons.star, color: Color(0xFFe8b923)),
+                          Icon(Icons.star_border, color: Color(0xFFe8b923)),
                         ],
                       ),
                     ),
@@ -269,7 +288,7 @@ class StaffListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('Staff List'),
+      child: const Text('Staff List', style: TextStyle(color: Color(0xFF793FDF))),
     );
   }
 }
@@ -292,7 +311,7 @@ class ActorsListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('Actors List'),
+      child: const Text('Actors List', style: TextStyle(color: Color(0xFF793FDF))),
     );
   }
 }
@@ -315,7 +334,7 @@ class NewsListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('News List'),
+      child: const Text('News List', style: TextStyle(color: Color(0xFF793FDF))),
     );
   }
 }
@@ -338,7 +357,7 @@ class CommentsListButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
       ),
-      child: const Text('Comments List'),
+      child: const Text('Comments List', style: TextStyle(color: Color(0xFF793FDF))),
     );
   }
 }

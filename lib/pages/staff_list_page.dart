@@ -209,8 +209,7 @@ class StaffDetailsPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // No need to display name, position, and image
-          // Additional Information about the staff
+       
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(

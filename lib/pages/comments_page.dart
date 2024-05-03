@@ -73,7 +73,6 @@ class CommentsListPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Add your comment submission logic here
                 },
                 child: Text('Submit'),
               ),

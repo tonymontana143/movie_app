@@ -36,9 +36,9 @@ class NewsListPage extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final String newsTitle = newsTitles[index];
           final String imageUrl = newsImages[newsTitle] ?? ''; // Get the image URL from the map
-          final String author = _getAuthor(newsTitle); // Get Author
-          final String date = _getDate(newsTitle); // Get Date
-          final String link = _getLink(newsTitle); // Get Link
+          final String author = _getAuthor(newsTitle); // Get author
+          final String date = _getDate(newsTitle); // Get date
+          final String link = _getLink(newsTitle); // Get link
           final String text = _getText(newsTitle); // Get text
 
           return GestureDetector(

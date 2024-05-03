@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/models/actors.dart';
-import 'package:movie_app/pages/actor_page.dart';
+import 'package:movie_app/pages/actor_and_staff_page.dart';
 
 class ActorsListPage extends StatefulWidget {
   const ActorsListPage({super.key});
@@ -45,7 +45,7 @@ class _ActorsListPageState extends State<ActorsListPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ActorPage(
+                  builder: (context) => ActorStaffPage(
                     actorName: actors[index].name,
                     actorSurname: actors[index].surname,
                     actorRole: actors[index].role,
@@ -74,12 +74,12 @@ class ActorCard extends StatelessWidget {
   final String imgUrl;
 
   const ActorCard({
-    Key? key,
+    super.key,
     required this.actorName,
     required this.actorSurname,
     required this.actorRole,
     required this.imgUrl,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class ActorCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
               radius: 40,
@@ -105,7 +105,7 @@ class ActorCard extends StatelessWidget {
                 children: [
                   Text(
                     "$actorName $actorSurname",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),

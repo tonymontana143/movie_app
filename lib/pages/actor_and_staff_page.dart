@@ -1,12 +1,12 @@
 import "package:flutter/material.dart";
 
-class ActorPage extends StatelessWidget {
+class ActorStaffPage extends StatelessWidget {
   final String actorName;
   final String actorSurname;
   final String actorRole;
   final String imgUrl;
 
-  const ActorPage({
+  const ActorStaffPage({
     super.key,
     required this.actorName,
     required this.actorSurname,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/pages/actors_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
 import 'package:movie_app/pages/news_list_page.dart';
-import 'package:movie_app/pages/stuff_list_page.dart';
+import 'package:movie_app/pages/staff_list_page.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
 import 'dart:ui';
 
@@ -11,7 +11,7 @@ void main() {
 }
 
 class MoviePage extends StatelessWidget {
-  const MoviePage({Key? key}) : super(key: key);
+  const MoviePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class MoviePage extends StatelessWidget {
                           child: Column(
                             children: [
                               const Text(
-                                'Planet of the Apes',
+                                'Rise of the Planet of the Apes',
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class MoviePage extends StatelessWidget {
               const SizedBox(height: 20),
               const ActorsListButton(),
               const SizedBox(height: 20),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ActorWidget(imageAsset: 'images/james_franco.jpeg', name: 'James Franco', role: 'Will Rodman'),
@@ -175,13 +175,13 @@ class MoviePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Rating:',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 8.0), // Adjust the left padding as needed
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.star, color: Colors.yellow),
                           Icon(Icons.star, color: Colors.yellow),
@@ -195,7 +195,7 @@ class MoviePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              ButtonList(),
+              const ButtonList(),
 
             ],
           ),
@@ -220,7 +220,7 @@ class ActorWidget extends StatelessWidget {
   final String name;
   final String role;
 
-  const ActorWidget({Key? key, required this.imageAsset, required this.name, required this.role}) : super(key: key);
+  const ActorWidget({super.key, required this.imageAsset, required this.name, required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +241,7 @@ class ActorWidget extends StatelessWidget {
         ),
         Text(
           role,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             color: Colors.grey,
           ),
@@ -252,7 +252,7 @@ class ActorWidget extends StatelessWidget {
 }
 
 class StaffListButton extends StatelessWidget {
-  const StaffListButton({Key? key}) : super(key: key);
+  const StaffListButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +260,7 @@ class StaffListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const StuffListPage()),
+          MaterialPageRoute(builder: (context) => const StaffListPage()),
         );
       },
       style: ElevatedButton.styleFrom(
@@ -275,7 +275,7 @@ class StaffListButton extends StatelessWidget {
 }
 
 class ActorsListButton extends StatelessWidget {
-  const ActorsListButton({Key? key}) : super(key: key);
+  const ActorsListButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +298,7 @@ class ActorsListButton extends StatelessWidget {
 }
 
 class NewsListButton extends StatelessWidget {
-  const NewsListButton({Key? key}) : super(key: key);
+  const NewsListButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -321,7 +321,7 @@ class NewsListButton extends StatelessWidget {
 }
 
 class CommentsListButton extends StatelessWidget {
-  const CommentsListButton({Key? key}) : super(key: key);
+  const CommentsListButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -344,7 +344,7 @@ class CommentsListButton extends StatelessWidget {
 }
 
 class ButtonList extends StatelessWidget {
-  const ButtonList({Key? key}) : super(key: key);
+  const ButtonList({super.key});
 
   @override
   Widget build(BuildContext context) {

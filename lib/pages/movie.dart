@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/pages/actors_list_page.dart';
+import 'package:movie_app/pages/event_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
 import 'package:movie_app/pages/news_list_page.dart';
 import 'package:movie_app/pages/staff_list_page.dart';
@@ -289,6 +290,7 @@ class ActorWidget extends StatelessWidget {
   }
 }
 
+
 class StaffListButton extends StatelessWidget {
   const StaffListButton({super.key});
 
@@ -367,7 +369,7 @@ class CommentsListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CommentsListPage()),
+          MaterialPageRoute(builder: (context) =>  CommentsPage()),
         );
       },
       style: ElevatedButton.styleFrom(
@@ -386,6 +388,25 @@ class ButtonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EventListPage()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            elevation: 0, // Remove the elevation
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0), // Set the button shape
+            ),
+          ),
+          child: const Text('Event Page', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
+        ),
+        // Add more buttons as needed
+      ],
+    );
   }
 }

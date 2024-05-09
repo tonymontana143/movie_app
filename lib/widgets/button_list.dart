@@ -33,7 +33,7 @@ class ButtonList extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const CommentsListPage()),
+              MaterialPageRoute(builder: (context) => CommentsPage()),
             );
           },
           child: const Text('Comments List'),

@@ -55,74 +55,75 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [const Color(0XFFF95A3B), const Color(0XFFF96713)],
-              begin: FractionalOffset.topLeft,
-              end: FractionalOffset.bottomCenter,
-              stops: [0.0, 0.8],
-              tileMode: TileMode.mirror,
-            ),
-          ),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  HeightBox(10),
-                  "Email Sign-In".text.size(22).yellow100.make(),
-                  TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: "Email",
-                      errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                    ),
-                  ).p4().px24(),
-                  TextField(
-                    controller: passwordController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: "Password",
-                      errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                    ),
-                  ).p4().px24(),
-                  GestureDetector(
-                    onTap: () {
-                      loginUser();
-                    },
-                    child: HStack([
-                      VxBox(child: "LogIn".text.white.makeCentered().p16()).green600.roundedLg.make(),
-                    ]),
-                  ),
-                ],
-              ),
-            ),
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [const Color(0XFF132C33), const Color(0XFF132C33)],
+            begin: FractionalOffset.topLeft,
+            end: FractionalOffset.bottomCenter,
+            stops: [0.0, 0.8],
+            tileMode: TileMode.mirror,
           ),
         ),
-        bottomNavigationBar: GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Registration()));
-          },
-          child: Container(
-            height: 25,
-            color: Colors.lightBlue,
-            child: Center(child: "Create a new Account..! Sign Up".text.white.makeCentered()),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                HeightBox(10),
+                "Email Sign-In".text.size(22).yellow100.make(),
+                TextField(
+                  controller: emailController,
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.1),
+                    hintText: "Email",
+                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                    errorText: _isNotValidate ? "Enter Proper Info" : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ).p4().px24(),
+                TextField(
+                  controller: passwordController,
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.1),
+                    hintText: "Password",
+                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+                    errorText: _isNotValidate ? "Enter Proper Info" : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ).p4().px24(),
+                GestureDetector(
+                  onTap: () {
+                    loginUser();
+                  },
+                  child: HStack([
+                    VxBox(child: "LogIn".text.white.makeCentered().p16()).green600.roundedLg.make(),
+                  ]),
+                ),
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Registration()));
+                  },
+                  child: "Create a new Account..! Sign Up".text.white.makeCentered(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

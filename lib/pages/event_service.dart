@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'event.dart';
 
+
 class EventService {
-  static const String baseUrl = '/events';
+  static const String baseUrl = 'http://172.20.10.3:3000/events';
 
   static Future<List<Event>> getEvents() async {
     try {

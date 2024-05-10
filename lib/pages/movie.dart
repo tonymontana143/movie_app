@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/pages/actors_list_page.dart';
+import 'package:movie_app/pages/cast_list_page.dart';
 import 'package:movie_app/pages/event_list_page.dart';
 import 'package:movie_app/pages/comments_page.dart';
 import 'package:movie_app/pages/news_list_page.dart';
@@ -300,7 +301,7 @@ class StaffListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const StaffListPage()),
+          MaterialPageRoute(builder: (context) =>  StaffListPage()),
         );
       },
       style: ElevatedButton.styleFrom(
@@ -323,7 +324,7 @@ class ActorsListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ActorsListPage()),
+          MaterialPageRoute(builder: (context) =>  CastListPage()),
         );
       },
       style: ElevatedButton.styleFrom(

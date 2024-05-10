@@ -89,7 +89,7 @@ class _PopUpDialogState extends State<PopUpDialog> {
       "description": data["description"],
     };
 
-    var response = await http.post(Uri.parse("http://192.168.1.245:3000/storeStaff"),
+    var response = await http.post(Uri.parse("http://192.168.1.130:3000/storeStaff"),
       headers: {"Content-Type":"application/json"},
       body: jsonEncode(regBody)
     );
@@ -97,7 +97,7 @@ class _PopUpDialogState extends State<PopUpDialog> {
     var jsonResponse = jsonDecode(response.body);
 
     if(jsonResponse["status"]) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const StaffListPage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>  StaffListPage()));
     }
 
   }
@@ -113,7 +113,7 @@ class _PopUpDialogState extends State<PopUpDialog> {
       "description": data["description"],
     };
 
-    var response = await http.post(Uri.parse("http://192.168.1.245:3000/storeCast"),
+    var response = await http.post(Uri.parse("http://192.168.1.130:3000/storeCast"),
         headers: {"Content-Type":"application/json"},
         body: jsonEncode(regBody)
     );
@@ -121,7 +121,7 @@ class _PopUpDialogState extends State<PopUpDialog> {
     var jsonResponse = jsonDecode(response.body);
 
     if(jsonResponse["status"]) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const StaffListPage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => StaffListPage()));
     }
 
   }

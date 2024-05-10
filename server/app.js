@@ -12,8 +12,6 @@ app.use("/", castRouter);
 
 module.exports = app;
 const bodyParser = require('body-parser');
-const app = express();
-const userRouter = require('./routers/user.router');
 const eventRouter = require('./routers/event.router');
 const commentRouter=require('./routers/comment.router')
 app.use(bodyParser.json());

@@ -29,8 +29,8 @@ class _RegistrationState extends State<Registration> {
       };
 
       var response = await http.post(Uri.parse(registration),
-      headers: {"Content-Type":"application/json"},
-      body: jsonEncode(regBody)
+          headers: {"Content-Type":"application/json"},
+          body: jsonEncode(regBody)
       );
 
       var jsonResponse = jsonDecode(response.body);
@@ -58,7 +58,9 @@ class _RegistrationState extends State<Registration> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
+
                 colors: [Color(0XFF3A6073),Color(0xFF16222A)],
+
                 begin: FractionalOffset.topLeft,
                 end: FractionalOffset.bottomCenter,
                 stops: [0.0,0.8],
@@ -158,7 +160,7 @@ class _RegistrationState extends State<Registration> {
                       onTap: ()=>{
                         registerUser()
                       },
-                        child: VxBox(child: "Register".text.white.makeCentered().p16()).green600.roundedLg.make().px16().py16(),
+                      child: VxBox(child: "Register".text.white.makeCentered().p16()).green600.roundedLg.make().px16().py16(),
                     ),
                   ]),
                   GestureDetector(
@@ -167,6 +169,7 @@ class _RegistrationState extends State<Registration> {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
                     },
                     child: HStack([
+
                       "Already Registered?".text.red800.make(),
                       " Sign In".text.white.make()
                     ]).centered(),

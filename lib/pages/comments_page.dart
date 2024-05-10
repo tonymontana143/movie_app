@@ -1,85 +1,135 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/widgets/review_widget.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'comment.dart';
+import 'comment_service.dart';
 
-class CommentsListPage extends StatelessWidget {
-  // ignore: use_super_parameters
-  const CommentsListPage({Key? key}) : super(key: key);
+class CommentsPage extends StatefulWidget {
+  @override
+  _CommentsPageState createState() => _CommentsPageState();
+}
+
+class _CommentsPageState extends State<CommentsPage> {
+  TextEditingController _textEditingController = TextEditingController();
+  List<Comment> _comments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchComments();
+  }
+
+  Future<void> _fetchComments() async {
+    try {
+      final comments = await CommentService.fetchComments();
+      setState(() {
+        _comments = comments;
+      });
+    } catch (e) {
+      print('Failed to fetch comments: $e');
+    }
+  }
+
+  Future<void> _addComment(String text) async {
+    try {
+      await CommentService.createComment(text);
+      await _fetchComments();
+    } catch (e) {
+      print('Failed to add comment: $e');
+    }
+  }
+
+  Future<void> _updateComment(String id, String newText) async {
+    try {
+      await CommentService.updateComment(id, newText);
+      await _fetchComments();
+    } catch (e) {
+      print('Failed to update comment: $e');
+    }
+  }
+
+  Future<void> _deleteComment(String id) async {
+    try {
+      await CommentService.deleteComment(id);
+      await _fetchComments();
+    } catch (e) {
+      print('Failed to delete comment: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comments'),
+        title: Text('Comments'),
       ),
-      body: Container(
-        color: const Color(0xFF132C33), // Deep blue background color
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: Text(
-                'User Comments',
-                style: GoogleFonts.lato(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+      body: ListView.builder(
+        itemCount: _comments.length,
+        itemBuilder: (context, index) {
+          final comment = _comments[index];
+          return ListTile(
+            title: Text(comment.text),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => _deleteComment(comment.id),
+            ),
+            onTap: () async {
+              final updatedText = await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Edit Comment'),
+                    content: TextField(
+                      controller: TextEditingController(text: comment.text),
+                      onChanged: (value) => setState(() {}),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context, _textEditingController.text),
+                        child: Text('Save'),
+                      ),
+                    ],
+                  );
+                },
+              );
+              if (updatedText != null) {
+                _updateComment(comment.id, updatedText);
+              }
+            },
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final text = await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Add Comment'),
+                content: TextField(
+                  controller: _textEditingController,
+                  onChanged: (value) => setState(() {}),
                 ),
-              ),
-            ),
-            const ReviewWidget(
-              name: 'John Doe',
-              avatarUrl: 'https://example.com/avatar.jpg',
-              reviewText: 'Great movie! Highly recommended.',
-              starsOutOfFive: 5,
-            ),
-            const SizedBox(height: 20),
-            const ReviewWidget(
-              name: 'Jane Smith',
-              avatarUrl: 'https://example.com/avatar.jpg',
-              reviewText: 'Average movie. Could be better.',
-              starsOutOfFive: 3,
-            ),
-            const SizedBox(height: 20),
-            const ReviewWidget(
-              name: 'Alice Johnson',
-              avatarUrl: 'https://example.com/avatar.jpg',
-              reviewText: 'Disappointing. Expected more.',
-              starsOutOfFive: 2,
-            ),
-            const SizedBox(height: 20),
-            // Text(
-            //   'Add Your Comment:',
-            //   style: GoogleFonts.lato(
-            //     color: Colors.white,
-            //     fontSize: 20,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            // const SizedBox(height: 10),gi
-            // TextField(
-            //   decoration: InputDecoration(
-            //     filled: true,
-            //     fillColor: Colors.white,
-            //     hintText: 'Enter your comment here',
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(height: 10),
-            // SizedBox(
-            //   width: double.infinity,
-            //   child: ElevatedButton(
-            //     onPressed: () {
-            //     },
-            //     child: const Text('Submit'),
-            //   ),
-            // ),
-          ],
-        ),
+                actions: <Widget>[
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context, _textEditingController.text),
+                    child: Text('Add'),
+                  ),
+                ],
+              );
+            },
+          );
+          if (text != null) {
+            _addComment(text);
+          }
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

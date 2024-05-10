@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'comment.dart';
 class CommentService {
-  static final Uri baseUrl = Uri.parse('http://your_api_base_url/comments');
+  static final Uri baseUrl = Uri.parse('http://172.20.10.3:3000/comments');
 
   static Future<List<Comment>> fetchComments() async {
     final response = await http.get(baseUrl);

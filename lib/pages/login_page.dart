@@ -1,11 +1,11 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'registration_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:http/http.dart' as http;
-import 'package:movie_app/config.dart';
-import 'movie.dart'; // Import the MoviePage widget
+import "dart:convert";
+import "package:flutter/material.dart";
+import "registration_page.dart";
+import "package:shared_preferences/shared_preferences.dart";
+import "package:velocity_x/velocity_x.dart";
+import "package:http/http.dart" as http;
+import "package:movie_app/config.dart";
+import "movie.dart"; // Import the MoviePage widget
 
 class SignInPage extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool _isNotValidate = false;
+  final bool _isNotValidate = false;
   late SharedPreferences prefs;
 
   @override
@@ -40,15 +40,20 @@ class _SignInPageState extends State<SignInPage> {
           body: jsonEncode(reqBody));
 
       var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['status']) {
-        var myToken = jsonResponse['token'];
-        prefs.setString('token', myToken);
+      if (jsonResponse["status"]) {
+        var myToken = jsonResponse["token"];
+        prefs.setString("token", myToken);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MoviePage()), // Navigate to MoviePage
+          MaterialPageRoute(builder: (context) => const MoviePage()), // Navigate to MoviePage
         );
       } else {
-        print('Something went wrong');
+        // Show snackbar if login fails
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("User not found"),
+          ),
+        );
       }
     }
   }
@@ -60,9 +65,9 @@ class _SignInPageState extends State<SignInPage> {
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [const Color(0XFFF95A3B), const Color(0XFFF96713)],
+              colors: [Color(0XFFF95A3B), Color(0XFFF96713)],
               begin: FractionalOffset.topLeft,
               end: FractionalOffset.bottomCenter,
               stops: [0.0, 0.8],
@@ -74,7 +79,7 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  HeightBox(10),
+                  const HeightBox(10),
                   "Email Sign-In".text.size(22).yellow100.make(),
                   TextField(
                     controller: emailController,
@@ -84,7 +89,7 @@ class _SignInPageState extends State<SignInPage> {
                       fillColor: Colors.white,
                       hintText: "Email",
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),
@@ -97,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                       fillColor: Colors.white,
                       hintText: "Password",
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),

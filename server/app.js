@@ -6,14 +6,10 @@ const staffRouter = require("./routers/staff.router");
 const castRouter = require("./routers/cast.router")
 const app = express();
 app.use(body_parser.json());
-app.use('/', userRouter);
 app.use("/", staffRouter);
 app.use("/", castRouter);
 
-module.exports = app;
 const bodyParser = require('body-parser');
-const app = express();
-const userRouter = require('./routers/user.router');
 const eventRouter = require('./routers/event.router');
 const commentRouter=require('./routers/comment.router')
 app.use(bodyParser.json());

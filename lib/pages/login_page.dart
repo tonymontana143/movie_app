@@ -6,6 +6,9 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie_app/config.dart';
 import 'movie.dart'; // Import the MoviePage widget
+import 'package:logger/logger.dart';
+
+final logger = Logger();
 
 class SignInPage extends StatefulWidget {
   @override
@@ -35,21 +38,32 @@ class _SignInPageState extends State<SignInPage> {
         "password": passwordController.text
       };
 
-      var response = await http.post(Uri.parse(login),
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(reqBody));
+      try {
+        var response = await http.post(Uri.parse(login),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(reqBody));
 
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['status']) {
-        var myToken = jsonResponse['token'];
-        prefs.setString('token', myToken);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MoviePage()), // Navigate to MoviePage
-        );
-      } else {
-        print('Something went wrong');
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['status']) {
+          var myToken = jsonResponse['token'];
+          prefs.setString('token', myToken);
+          logger.i('User logged in successfully'); // Info level log
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MoviePage()),
+          );
+        } else {
+          logger.w('Login failed'); // Warning level log
+          print('Something went wrong');
+        }
+      } catch (error) {
+        logger.e('Error during login: $error'); // Error level log
       }
+    } else {
+      logger.w('Email or password is empty'); // Warning level log
+      setState(() {
+        _isNotValidate = true;
+      });
     }
   }
 
@@ -62,7 +76,7 @@ class _SignInPageState extends State<SignInPage> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [const Color(0XFFF95A3B), const Color(0XFFF96713)],
+              colors: [const Color(0xFF3A6073), const Color(0xFF16222A)],
               begin: FractionalOffset.topLeft,
               end: FractionalOffset.bottomCenter,
               stops: [0.0, 0.8],
@@ -75,16 +89,29 @@ class _SignInPageState extends State<SignInPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   HeightBox(10),
-                  "Email Sign-In".text.size(22).yellow100.make(),
+                  "Email Sign-In".text.size(22).white.make(),
                   TextField(
                     controller: emailController,
                     keyboardType: TextInputType.text,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      letterSpacing: 1.1,
+                    ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: Colors.white.withOpacity(0.1),
                       hintText: "Email",
+                      hintStyle: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        letterSpacing: 1.1,
+                      ),
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
                       border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),
@@ -92,12 +119,25 @@ class _SignInPageState extends State<SignInPage> {
                   TextField(
                     controller: passwordController,
                     keyboardType: TextInputType.text,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      letterSpacing: 1.1,
+                    ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: Colors.white.withOpacity(0.1),
                       hintText: "Password",
+                      hintStyle: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        letterSpacing: 1.1,
+                      ),
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
                       border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),

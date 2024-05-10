@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/widgets/pop_up_dialog.dart';
+
+import 'actor_and_staff_page.dart';
 
 class StaffModel {
   final String name;
@@ -101,163 +104,105 @@ class _StaffListPageState extends State<StaffListPage> {
     ),
   ];
 
+  Future openDialog() => showDialog(
+      context: context,
+      builder: (context) => const PopUpDialog(type: "Staff")
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Staff", style: TextStyle(fontFamily: "Poppins")),
       ),
+      backgroundColor: const Color(0xFF000000),
       body: ListView.builder(
         itemCount: staff.length,
         itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: [
-              StaffCard(
-                staff: staff[index],
-                onTap: () {
-                  setState(() {
-                    staff[index].showDetails = !staff[index].showDetails;
-                  });
-                },
-              ),
-              if (staff[index].showDetails)
-                StaffDetailsPanel(
-                  staff: staff[index],
-                ),
-            ],
+          return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ActorStaffPage(
+                      actorName: staff[index].name,
+                      actorSurname: staff[index].surname,
+                      actorRole: staff[index].position,
+                      imgUrl: staff[index].imgUrl,
+                    ),
+                  ),
+                );
+              },
+              child: StaffCard(staff: staff[index]),
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          openDialog();
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add), // Optional: Customize the button color
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Optional: Customize the button position
     );
   }
 }
 
 class StaffCard extends StatelessWidget {
   final StaffModel staff;
-  final VoidCallback onTap;
 
   const StaffCard({
     super.key,
-    required this.staff,
-    required this.onTap,
+    required this.staff
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(10),
+      color: const Color(0xFF000000),
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 45,
-                backgroundImage: NetworkImage(staff.imgUrl),
-              ),
-              const SizedBox(width: 15),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${staff.name} ${staff.surname}",
-                      style: const TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 45,
+              backgroundImage: NetworkImage(staff.imgUrl),
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${staff.name} ${staff.surname}",
+                    style: const TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFC7C8CC)
                     ),
-                    Text(
-                      staff.position,
-                      style: const TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        color: Color(0xFF757575),
-                      ),
+                  ),
+                  Text(
+                    staff.position,
+                    style: const TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 16,
+                      color: Color(0xFF757575),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
-}
-
-class StaffDetailsPanel extends StatelessWidget {
-  final StaffModel staff;
-
-  // ignore: use_super_parameters
-  const StaffDetailsPanel({
-    Key? key,
-    required this.staff,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      color: Colors.grey[200],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-       
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-
-            child: Text(
-              getStaffInfo(staff),
-              style: const TextStyle(
-                fontFamily: "Poppins",
-                fontSize: 14,
-                color: Colors.black,
-
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String getStaffInfo(StaffModel staff) {
-    switch (staff.name) {
-      case "Rupert":
-        return "Rupert Wyatt is a British film director and screenwriter. He is best known for directing the films 'Rise of the Planet of the Apes' and 'The Gambler'.";
-      case "Rick":
-        return "Rick Jaffa is an American screenwriter and producer. He is known for co-writing the screenplay for 'Rise of the Planet of the Apes' along with his wife Amanda Silver.";
-      case "Amanda":
-        return "Amanda Silver is an American screenwriter and producer. She is known for co-writing the screenplay for 'Rise of the Planet of the Apes' along with her husband Rick Jaffa.";
-      case "Pierre":
-        return "Pierre Boulle was a French novelist known for writing the novel 'La Planète des Singes' ('Planet of the Apes'), which served as the basis for the 'Planet of the Apes' film series.";
-      case "Peter":
-        return "Peter Chernin is an American businessman and film producer. He is the former president and COO of News Corporation and founder of The Chernin Group.";
-      case "Dylan":
-        return "Dylan Clark is an American film producer. He is known for producing films such as 'Dawn of the Planet of the Apes' and 'War for the Planet of the Apes'.";
-      case "Thomas M.":
-        return "Thomas M. Hammel is an American film producer and executive. He has served as an executive producer on various films, including 'Rise of the Planet of the Apes'.";
-      case "Mike":
-        return "Mike Larocca is an American film producer. He has worked on several successful films, including 'The Wolverine' and 'Dawn of the Planet of the Apes'.";
-      case "Kurt":
-        return "Kurt Williams is an American film producer. He is known for his work as a co-producer on films such as 'The Martian' and 'War for the Planet of the Apes'.";
-      default:
-        return "No additional information available.";
-    }
-  }
-}
-
-
-void main() {
-  runApp(const MaterialApp(
-    home: StaffListPage(),
-  ));
 }

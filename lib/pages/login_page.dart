@@ -15,7 +15,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool _isNotValidate = false;
+  final bool _isNotValidate = false;
   late SharedPreferences prefs;
 
   @override
@@ -45,7 +45,7 @@ class _SignInPageState extends State<SignInPage> {
         prefs.setString('token', myToken);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MoviePage()), // Navigate to MoviePage
+          MaterialPageRoute(builder: (context) => const MoviePage()), // Navigate to MoviePage
         );
       } else {
         print('Something went wrong');
@@ -60,9 +60,9 @@ class _SignInPageState extends State<SignInPage> {
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [const Color(0XFFF95A3B), const Color(0XFFF96713)],
+              colors: [Color(0XFFF95A3B), Color(0XFFF96713)],
               begin: FractionalOffset.topLeft,
               end: FractionalOffset.bottomCenter,
               stops: [0.0, 0.8],
@@ -74,7 +74,7 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  HeightBox(10),
+                  const HeightBox(10),
                   "Email Sign-In".text.size(22).yellow100.make(),
                   TextField(
                     controller: emailController,
@@ -84,7 +84,7 @@ class _SignInPageState extends State<SignInPage> {
                       fillColor: Colors.white,
                       hintText: "Email",
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),
@@ -97,7 +97,7 @@ class _SignInPageState extends State<SignInPage> {
                       fillColor: Colors.white,
                       hintText: "Password",
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),

@@ -1,39 +1,52 @@
-const StaffService = require("../services/staff.service");
+const Staff = require('../model/staff_model');
 
-exports.createStaff = async (req, res, next) => {
-    try {
-        const { id,
-            name,
-            surname,
-            imgUrl,
-            position,
-            description } = req.body;
-
-        let staff = await StaffService.createStaff(
-            id,
-            name,
-            surname,
-            imgUrl,
-            position,
-            description
-        );
-
-        res.json({ status: true, success: staff });
-    } catch (e) {
-        next(e);
-    }
+exports.createStaff = async (req, res) => {
+  try {
+    const { id, name, surname, imgUrl, role, description } = req.body;
+    const staff = new Staff({ id, name, surname, imgUrl, role, description });
+    await staff.save();
+    res.status(201).json(staff);
+  } catch (err) {
+    console.error('Error creating staff:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
-exports.getStaff = async (req, res, next) => {
-    try {
-        const { id } = req.body;
+exports.getStaffs = async (req, res) => {
+  try {
+    const staffs = await Staff.find();
+    res.status(200).json(staffs);
+  } catch (err) {
+    console.error('Error fetching staffs:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
-        let staff = await StaffService.getStaffData(
-            id
-        );
-
-        res.json({ status: true, success: staff });
-    } catch (e) {
-        next(e);
+exports.updateStaff = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, surname, imgUrl, role, description } = req.body;
+    const staff = await Staff.findByIdAndUpdate(id, { name, surname, imgUrl, role, description }, { new: true });
+    if (!staff) {
+      return res.status(404).json({ message: 'Staff not found' });
     }
+    res.status(200).json(staff);
+  } catch (err) {
+    console.error('Error updating staff:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.deleteStaff = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const staff = await Staff.findByIdAndDelete(id);
+    if (!staff) {
+      return res.status(404).json({ message: 'Staff not found' });
+    }
+    res.status(200).json({ message: 'Staff deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting staff:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };

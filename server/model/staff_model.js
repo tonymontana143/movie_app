@@ -7,7 +7,7 @@ const staffSchema = new Schema({
     name: String,
     surname: String,
     imgUrl: String,
-    position: String,
+    role: String,
     description: String
 });
 

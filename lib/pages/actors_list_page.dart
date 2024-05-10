@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/models/actors.dart';
 import 'package:movie_app/pages/actor_and_staff_page.dart';
 
+import '../widgets/pop_up_dialog.dart';
+
 class ActorsListPage extends StatefulWidget {
   const ActorsListPage({super.key});
 
@@ -30,6 +32,11 @@ class _ActorsListPageState extends State<ActorsListPage> {
     ActorModel(name: "David", surname: "Hewlett", role: "Hunsiker", imgUrl: "https://m.media-amazon.com/images/M/MV5BMGQ5NjhhZTMtMTNkZS00OTcyLWE4NDctMTQ2ZDYxYjU1MDQwXkEyXkFqcGdeQXVyMDE2ODExOA@@._V1_.jpg"),
     ActorModel(name: "Joey", surname: "Roche", role: "Todd Hunsiker", imgUrl: "https://m.media-amazon.com/images/M/MV5BMzE4MDEzODIyMF5BMl5BanBnXkFtZTcwMzY5MDYzMQ@@._V1_.jpg"),
   ];
+
+  Future openDialog() => showDialog(
+      context: context,
+      builder: (context) => const PopUpDialog(type: "Cast")
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +70,14 @@ class _ActorsListPageState extends State<ActorsListPage> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          openDialog();
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add), // Optional: Customize the button color
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

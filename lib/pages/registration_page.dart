@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:movie_app/config.dart';
 
 class Registration extends StatefulWidget {
+  const Registration({super.key});
+
   @override
   _RegistrationState createState() => _RegistrationState();
 }
@@ -54,9 +56,11 @@ class _RegistrationState extends State<Registration> {
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
-                colors: [const Color(0xFF132C33), const Color(0xFF132C33)],
+
+                colors: [Color(0XFF3A6073),Color(0xFF16222A)],
+
                 begin: FractionalOffset.topLeft,
                 end: FractionalOffset.bottomCenter,
                 stops: [0.0,0.8],
@@ -69,22 +73,52 @@ class _RegistrationState extends State<Registration> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   HeightBox(10),
-                  "CREATE YOUR ACCOUNT".text.size(22).yellow100.make(),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                        "CREATE YOUR ACCOUNT",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFFEEEEEE),
+                          fontSize: 28
+                        )
+                    ),
+                  ),
                   TextField(
                     controller: emailController,
                     keyboardType: TextInputType.text,
+                      style: const TextStyle(
+                          color: Color(0xFFEEEEEE),
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          letterSpacing: 1.1
+                      ),
                     decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorStyle: TextStyle(color: Colors.white),
+                        filled: false,
+                        errorStyle: const TextStyle(color: Colors.white),
                         errorText: _isNotValidate ? "Enter Proper Info" : null,
                         hintText: "Email",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                        hintStyle: const TextStyle(
+                          color: Color(0xFFEEEEEE),
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          letterSpacing: 1.1
+                        ),
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFFFFFFF)),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    ),
                   ).p4().px24(),
                   TextField(
                     controller: passwordController,
                     keyboardType: TextInputType.text,
+                    style: const TextStyle(
+                        color: Color(0xFFEEEEEE),
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        letterSpacing: 1.1
+                    ),
                     decoration: InputDecoration(
                         suffixIcon: IconButton(icon: Icon(Icons.copy),onPressed: (){
                           final data = ClipboardData(text: passwordController.text);
@@ -97,13 +131,29 @@ class _RegistrationState extends State<Registration> {
 
                           });
                         },),
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorStyle: TextStyle(color: Colors.white),
+                        filled: false,
+                        errorStyle: const TextStyle(color: Colors.white),
                         errorText: _isNotValidate ? "Enter Proper Info" : null,
                         hintText: "Password",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                        hintStyle: const TextStyle(
+                            color: Color(0xFFEEEEEE),
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                            letterSpacing: 1.1
+                        ),
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFFFFFFF), width: 100.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))
+                    ,
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                            color: Color(0XFF3A6073)
+                              , // Change the color of the border when focused
+                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    ),
+
                   ).p4().px24(),
                   HStack([
                     GestureDetector(
@@ -119,7 +169,8 @@ class _RegistrationState extends State<Registration> {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
                     },
                     child: HStack([
-                      "Already Registered?".text.color(Colors.white).make(), // Change color here
+
+                      "Already Registered?".text.red800.make(),
                       " Sign In".text.white.make()
                     ]).centered(),
                   )

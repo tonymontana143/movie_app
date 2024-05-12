@@ -7,8 +7,6 @@ import 'package:movie_app/pages/news_list_page.dart';
 import 'package:movie_app/pages/staff_list_page.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
 import 'dart:ui';
-import 'package:movie_app/pages/staff_list_page.dart';
-import 'package:movie_app/theme/colors.dart'; 
 
 void main() {
   runApp(const MoviePage());
@@ -23,10 +21,6 @@ class MoviePage extends StatelessWidget {
       theme: ThemeData.dark(), // Set the theme to dark
       home: Scaffold(
         backgroundColor: Colors.black, // Set the background color to black
-        appBar: AppBar(
-          title: Text('Rise of the Planet of the Apes'),
-          backgroundColor: primaryColor, 
-        ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -242,21 +236,6 @@ class MoviePage extends StatelessWidget {
               const SizedBox(height: 20),
               const ButtonList(),
 
-              TrailerButton(
-                trailerLink: 'https://youtu.be/P1yKN0llkrY?si=WLVd9vjfXmExY9US',
-              ),
-              Description(
-                description: 'A substance designed to help the brain repair itself gives advanced intelligence to a chimpanzee who leads an ape uprising. A substance designed to help the brain repair itself gives advanced intelligence to a chimpanzee who leads an ape uprising.',
-                time: '2h 12min',
-                publicationDate: '2011',
-                director: 'Rupert Wyatt',
-              ),
-              SizedBox(height: 20), 
-              ButtonList(), 
-              StaffListButton(),
-              ActorsListButton(),
-              NewsListButton(),
-              CommentsListButton(),
             ],
           ),
         ),
@@ -308,28 +287,6 @@ class ActorWidget extends StatelessWidget {
           ),
         ),
       ],
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Center(
-            child: Image.asset(
-              'images/movie_img.jpg',
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Handle trailer button press
-            },
-            child: Text('Watch Trailer'),
-            style: ElevatedButton.styleFrom(
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -337,18 +294,6 @@ class ActorWidget extends StatelessWidget {
 
 class StaffListButton extends StatelessWidget {
   const StaffListButton({super.key});
-class Description extends StatelessWidget {
-  final String description;
-  final String time;
-  final String publicationDate;
-  final String director;
-
-  Description({
-    required this.description,
-    required this.time,
-    required this.publicationDate,
-    required this.director,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -364,50 +309,8 @@ class Description extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0), // Set the button shape
         ),
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Description:',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
-              color: primaryColor, // Using primaryColor from colors.dart
-            ),
-          ),
-          Text(description),
-          SizedBox(height: 10),
-          Text('Duration: $time'),
-          Text('Publication Date: $publicationDate'),
-        ],
       ),
       child: const Text('Staff List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
-    );
-    );
-  }
-}
-
-class ButtonList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-class StaffListButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => StaffListPage()),
-        );
-      },
-      child: Text('Staff List'),
-      style: ElevatedButton.styleFrom(
-      ),
     );
   }
 }
@@ -431,9 +334,6 @@ class ActorsListButton extends StatelessWidget {
         ),
       ),
       child: const Text('Actors List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
-      child: Text('Actors List'),
-      style: ElevatedButton.styleFrom(
-      ),
     );
   }
 }
@@ -457,9 +357,6 @@ class NewsListButton extends StatelessWidget {
         ),
       ),
       child: const Text('News List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
-      child: Text('News List'),
-      style: ElevatedButton.styleFrom(
-      ),
     );
   }
 }
@@ -476,9 +373,6 @@ class CommentsListButton extends StatelessWidget {
           MaterialPageRoute(builder: (context) =>  CommentsPage()),
         );
       },
-      child: Text('Comments List'),
-      style: ElevatedButton.styleFrom(
-      ),
       style: ElevatedButton.styleFrom(
         elevation: 0, // Remove the elevation
         shape: RoundedRectangleBorder(
@@ -486,34 +380,6 @@ class CommentsListButton extends StatelessWidget {
         ),
       ),
       child: const Text('Comments List', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
-    );
-  }
-}
-
-class ButtonList extends StatelessWidget {
-  const ButtonList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => EventListPage()),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            elevation: 0, // Remove the elevation
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0), // Set the button shape
-            ),
-          ),
-          child: const Text('Event Page', style: TextStyle(color: Color(0xFF793FDF), fontFamily: "Poppins")),
-        ),
-        // Add more buttons as needed
-      ],
     );
   }
 }

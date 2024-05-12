@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:movie_app/pages/actors_list_page.dart';
-import 'package:movie_app/pages/movie.dart';
-import 'package:movie_app/pages/staff_list_page.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:movie_app/pages/login_page.dart';
@@ -13,6 +9,7 @@ import 'package:movie_app/pages/login_page.dart';
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();
    SharedPreferences prefs = await SharedPreferences.getInstance();
+
   runApp(MyApp(token: prefs.getString('token'),));
 }
 

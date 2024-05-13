@@ -1,11 +1,14 @@
-import "dart:convert";
-import "package:flutter/material.dart";
-import "registration_page.dart";
-import "package:shared_preferences/shared_preferences.dart";
-import "package:velocity_x/velocity_x.dart";
-import "package:http/http.dart" as http;
-import "package:movie_app/config.dart";
-import "movie.dart"; // Import the MoviePage widget
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'registration_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:velocity_x/velocity_x.dart';
+import 'package:http/http.dart' as http;
+import 'package:movie_app/config.dart';
+import 'movie.dart'; // Import the MoviePage widget
+import 'package:logger/logger.dart';
+
+final logger = Logger();
 
 class SignInPage extends StatefulWidget {
   @override
@@ -15,7 +18,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final bool _isNotValidate = false;
+  bool _isNotValidate = false;
   late SharedPreferences prefs;
 
   @override
@@ -35,26 +38,32 @@ class _SignInPageState extends State<SignInPage> {
         "password": passwordController.text
       };
 
-      var response = await http.post(Uri.parse(login),
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(reqBody));
+      try {
+        var response = await http.post(Uri.parse(login),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(reqBody));
 
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse["status"]) {
-        var myToken = jsonResponse["token"];
-        prefs.setString("token", myToken);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MoviePage()), // Navigate to MoviePage
-        );
-      } else {
-        // Show snackbar if login fails
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("User not found"),
-          ),
-        );
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['status']) {
+          var myToken = jsonResponse['token'];
+          prefs.setString('token', myToken);
+          logger.i('User logged in successfully'); // Info level log
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MoviePage()),
+          );
+        } else {
+          logger.w('Login failed'); // Warning level log
+          print('Something went wrong');
+        }
+      } catch (error) {
+        logger.e('Error during login: $error'); // Error level log
       }
+    } else {
+      logger.w('Email or password is empty'); // Warning level log
+      setState(() {
+        _isNotValidate = true;
+      });
     }
   }
 
@@ -65,9 +74,9 @@ class _SignInPageState extends State<SignInPage> {
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0XFFF95A3B), Color(0XFFF96713)],
+              colors: [const Color(0xFF3A6073), const Color(0xFF16222A)],
               begin: FractionalOffset.topLeft,
               end: FractionalOffset.bottomCenter,
               stops: [0.0, 0.8],
@@ -79,17 +88,30 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const HeightBox(10),
-                  "Email Sign-In".text.size(22).yellow100.make(),
+                  HeightBox(10),
+                  "Email Sign-In".text.size(22).white.make(),
                   TextField(
                     controller: emailController,
                     keyboardType: TextInputType.text,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      letterSpacing: 1.1,
+                    ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: Colors.white.withOpacity(0.1),
                       hintText: "Email",
+                      hintStyle: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        letterSpacing: 1.1,
+                      ),
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),
@@ -97,12 +119,25 @@ class _SignInPageState extends State<SignInPage> {
                   TextField(
                     controller: passwordController,
                     keyboardType: TextInputType.text,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      letterSpacing: 1.1,
+                    ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: Colors.white.withOpacity(0.1),
                       hintText: "Password",
+                      hintStyle: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        letterSpacing: 1.1,
+                      ),
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),

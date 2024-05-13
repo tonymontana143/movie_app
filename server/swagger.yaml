@@ -1,0 +1,269 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'API Documentation'
+  description: 'API documentation for multiple resources'
+
+paths:
+  /casts:
+    post:
+      summary: Create a new cast
+      description: Create a new cast entry
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Cast object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/CastInput'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+    get:
+      summary: Get all casts
+      description: Retrieve all cast entries
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+
+  /casts/updateCast/{id}:
+    put:
+      summary: Update a cast by ID
+      description: Update an existing cast entry
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the cast to update
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Cast object with updated information
+          required: true
+          schema:
+            $ref: '#/definitions/CastInput'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+
+  /casts/deleteCast/{id}:
+    delete:
+      summary: Delete a cast by ID
+      description: Delete an existing cast entry
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the cast to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+
+  /reviews:
+    post:
+      summary: Create a new review
+      description: Create a new review entry
+      parameters:
+        - in: body
+          name: review
+          description: Review object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/ReviewInput'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+
+    get:
+      summary: Get all reviews
+      description: Retrieve all review entries
+      responses:
+        '200':
+          description: OK
+
+    put:
+      summary: Update a review by ID
+      description: Update an existing review entry
+      parameters:
+        - in: path
+          name: id
+          description: ID of the review to update
+          required: true
+          type: string
+        - in: body
+          name: review
+          description: Review object with updated information
+          required: true
+          schema:
+            $ref: '#/definitions/ReviewInput'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a review by ID
+      description: Delete an existing review entry
+      parameters:
+        - in: path
+          name: id
+          description: ID of the review to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+
+  /staffs:
+    post:
+      summary: Create a new staff
+      description: Create a new staff entry
+      parameters:
+        - in: body
+          name: staff
+          description: Staff object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/StaffInput'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+
+    get:
+      summary: Get all staffs
+      description: Retrieve all staff entries
+      responses:
+        '200':
+          description: OK
+
+    put:
+      summary: Update a staff by ID
+      description: Update an existing staff entry
+      parameters:
+        - in: path
+          name: id
+          description: ID of the staff to update
+          required: true
+          type: string
+        - in: body
+          name: staff
+          description: Staff object with updated information
+          required: true
+          schema:
+            $ref: '#/definitions/StaffInput'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a staff by ID
+      description: Delete an existing staff entry
+      parameters:
+        - in: path
+          name: id
+          description: ID of the staff to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+
+  /users/registration:
+    post:
+      summary: Register a new user
+      description: Register a new user account
+      parameters:
+        - in: body
+          name: user
+          description: User object that needs to be registered
+          required: true
+          schema:
+            $ref: '#/definitions/UserRegistrationInput'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+
+  /users/login:
+    post:
+      summary: Log in user
+      description: Log in an existing user
+      parameters:
+        - in: body
+          name: credentials
+          description: User credentials for login
+          required: true
+          schema:
+            $ref: '#/definitions/UserLoginInput'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+
+definitions:
+  CastInput:
+    type: object
+    properties:
+      name:
+        type: string
+      age:
+        type: integer
+    required:
+      - name
+      - age
+
+  ReviewInput:
+    type: object
+    properties:
+      // Define properties for ReviewInput
+
+  StaffInput:
+    type: object
+    properties:
+      // Define properties for StaffInput
+
+  UserRegistrationInput:
+    type: object
+    properties:
+      // Define properties for UserRegistrationInput
+
+  UserLoginInput:
+    type: object
+    properties:
+      // Define properties for UserLoginInput

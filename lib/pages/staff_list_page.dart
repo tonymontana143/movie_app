@@ -40,7 +40,7 @@ class _StaffListPageState extends State<StaffListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Staff List'),
+        title: const Text('Staff List'),
       ),
       body: ListView.builder(
         itemCount: staffList.length,
@@ -76,7 +76,7 @@ class _StaffListPageState extends State<StaffListPage> {
             fetchStaffList();
           });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -86,14 +86,14 @@ class _StaffListPageState extends State<StaffListPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Update Staff'),
-          content: Text('Do you want to update this staff member?'),
+          title: const Text('Update Staff'),
+          content: const Text('Do you want to update this staff member?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -107,7 +107,7 @@ class _StaffListPageState extends State<StaffListPage> {
                   fetchStaffList();
                 });
               },
-              child: Text('Update'),
+              child: const Text('Update'),
             ),
           ],
         );

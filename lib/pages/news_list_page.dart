@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
+import 'package:url_launcher/url_launcher.dart';
+
+import 'news_detail_page.dart'; // Import url_launcher
 
 class NewsListPage extends StatelessWidget {
   const NewsListPage({Key? key});
@@ -61,6 +63,7 @@ class NewsListPage extends StatelessWidget {
                     date: date,
                     link: link,
                     text: text,
+                    imgUrl: imageUrl
                   ),
                 ),
               );
@@ -185,81 +188,4 @@ class NewsListPage extends StatelessWidget {
         return '';
     }
   }
-}
-
-class NewsDetailPage extends StatelessWidget {
-  final String newsTitle;
-  final String author;
-  final String date;
-  final String link;
-  final String text;
-
-  const NewsDetailPage({
-    Key? key,
-    required this.newsTitle,
-    required this.author,
-    required this.date,
-    required this.link,
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(newsTitle, style: const TextStyle(color: Colors.white)),
-        backgroundColor: const Color(0xFF132C33), // Deep blue
-      ),
-      backgroundColor: const Color(0xFF1E1E1E), // Dark gray
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              newsTitle,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text('Author: $author', style: const TextStyle(color: Colors.white)),
-            Text('Date: $date', style: const TextStyle(color: Colors.white)),
-            const SizedBox(height: 10),
-            Text(
-              text,
-              style: const TextStyle(color: Colors.white),
-            ),
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: () {
-                _launchURL(link); // Open the link when tapped
-              },
-              child: const Text(
-                'Read More',
-                style: TextStyle(
-                  color: Color(0xFFD4AF37), // Gold
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Function to launch URL
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) { // Pass Uri directly to canLaunchUrl
-      await launchUrl(uri); // Pass Uri directly to launchUrl
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-
 }

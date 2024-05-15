@@ -36,7 +36,7 @@ class AddCastPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Cast Member'),
+        title: const Text('Add Cast Member'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,30 +44,30 @@ class AddCastPage extends StatelessWidget {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
               controller: _surnameController,
-              decoration: InputDecoration(labelText: 'Surname'),
+              decoration: const InputDecoration(labelText: 'Surname'),
             ),
             TextField(
               controller: _imgUrlController,
-              decoration: InputDecoration(labelText: 'Image URL'),
+              decoration: const InputDecoration(labelText: 'Image URL'),
             ),
             TextField(
               controller: _roleController,
-              decoration: InputDecoration(labelText: 'Role'),
+              decoration: const InputDecoration(labelText: 'Role'),
             ),
             TextField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 addCast(context);
               },
-              child: Text('Add Cast Member'),
+              child: const Text('Add Cast Member'),
             ),
           ],
         ),

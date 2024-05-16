@@ -22,7 +22,7 @@ class StaffDetailPage extends StatelessWidget {
           children: [
             Text(
               'Name: $name $surname',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Text('Position: $position'),
           ],

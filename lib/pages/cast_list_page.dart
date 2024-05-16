@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'add_cast_page.dart';
 import 'cast_detail_page.dart';
+import 'edit_cast_page.dart';
 
 class CastListPage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _CastListPageState extends State<CastListPage> {
   Future<void> fetchCastList() async {
     try {
       final response =
-          await http.get(Uri.parse('http://172.20.10.3:3000/cast'));
+      await http.get(Uri.parse('http://172.20.10.3:3000/cast'));
       if (response.statusCode == 200) {
         setState(() {
           castList = json.decode(response.body);
@@ -35,11 +36,27 @@ class _CastListPageState extends State<CastListPage> {
     }
   }
 
+  Future<void> deleteAnItem(String id) async {
+    try {
+      final response = await http.delete(Uri.parse('http://172.20.10.3:3000/cast/deleteCast/$id'));
+      if (response.statusCode == 200) {
+        print('Item deleted successfully');
+        // Refresh cast list after deletion
+        fetchCastList();
+      } else {
+        print('Failed to delete item');
+      }
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cast List'),
+        title: const Text('Cast List'),
       ),
       body: ListView.builder(
         itemCount: castList.length,
@@ -50,6 +67,23 @@ class _CastListPageState extends State<CastListPage> {
           return ListTile(
             title: Text('$name $surname'),
             subtitle: Text(role),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    const EditCastPage();
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    deleteAnItem(castList[index]['id']);
+                  },
+                ),
+              ],
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -72,8 +106,9 @@ class _CastListPageState extends State<CastListPage> {
             fetchCastList();
           });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
+
 }

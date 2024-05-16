@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         google()
@@ -5,13 +6,11 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.google.gms.google-services:4.4.1"
+        classpath "com.google.gms:google-services:4.3.10"
     }
 }
 
-plugins {
-    id 'com.google.gms.google-services' version '4.4.1' apply false
-}
+
 
 allprojects {
     repositories {
@@ -20,15 +19,4 @@ allprojects {
     }
 }
 
-
 rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
-}
-
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}

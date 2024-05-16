@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/pages/actors_list_page.dart';
-import 'package:movie_app/pages/news_list_page.dart';
-import 'package:movie_app/pages/comments_page.dart';
+import 'package:movie_app/news/news_list.dart';
+import 'package:movie_app/cast/cast_list_page.dart';
+import 'package:movie_app/comments/comments_page.dart';
 
 class ButtonList extends StatelessWidget {
   const ButtonList({super.key});
@@ -15,7 +15,7 @@ class ButtonList extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ActorsListPage()),
+              MaterialPageRoute(builder: (context) =>  CastListPage()),
             );
           },
           child: const Text('Actors List'),
@@ -24,7 +24,7 @@ class ButtonList extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const NewsListPage()),
+              MaterialPageRoute(builder: (context) =>  NewssListPage()),
             );
           },
           child: const Text('News List'),

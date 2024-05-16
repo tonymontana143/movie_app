@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:movie_app/pages/staff_list_page.dart';
+import 'package:movie_app/staff/staff_list_page.dart';
 
 class PopUpDialog extends StatefulWidget {
   final String type;

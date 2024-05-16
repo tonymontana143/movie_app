@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/pages/actors_list_page.dart';
-import 'package:movie_app/pages/cast_list_page.dart';
-import 'package:movie_app/pages/event_list_page.dart';
-import 'package:movie_app/pages/comments_page.dart';
-import 'package:movie_app/pages/news_list_page.dart';
-import 'package:movie_app/pages/staff_list_page.dart';
+import 'package:movie_app/cast/cast_list_page.dart';
+import 'package:movie_app/events/event_list_page.dart';
+import 'package:movie_app/comments/comments_page.dart';
+import 'package:movie_app/news/news_list.dart';
+import 'package:movie_app/staff/staff_list_page.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
 import 'dart:ui';
 
@@ -347,7 +346,7 @@ class NewsListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const NewsListPage()),
+          MaterialPageRoute(builder: (context) => NewssListPage()),
         );
       },
       style: ElevatedButton.styleFrom(

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/news_mode.dart';
+import '../models/news_model.dart';
 
 const String NEWS_COLLECTION_REF = "news";
 
@@ -23,5 +23,13 @@ class DBService {
 
   void addNews(NewsModel news) async {
     _newsRef.add(news);
+  }
+
+  void updateNews(String id, NewsModel news) async {
+    _newsRef.doc(id).update(news.toJson());
+  }
+
+  void deleteNews(String id) async {
+    _newsRef.doc(id).delete();
   }
 }

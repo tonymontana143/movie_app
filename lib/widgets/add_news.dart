@@ -1,32 +1,24 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:movie_app/firebase_services/db_service.dart";
+import "package:movie_app/models/news_model.dart";
 
-import "../models/news_model.dart";
+class AddNews extends StatefulWidget {
+  late String newsTitle;
+  late String author;
+  late String link;
+  late String text;
+  late String imgUrl;
 
-class EditNews extends StatefulWidget {
-  final String newsTitle;
-  final String author;
-  final String link;
-  final String text;
-  final String imgUrl;
-  final String id;
-
-  const EditNews({
-    super.key,
-    required this.newsTitle,
-    required this.author,
-    required this.link,
-    required this.text,
-    required this.imgUrl,
-    required this.id
+  AddNews({
+    super.key
   });
 
   @override
-  State<EditNews> createState() => _EditNewsState();
+  State<AddNews> createState() => _EditNewsState();
 }
 
-class _EditNewsState extends State<EditNews> {
+class _EditNewsState extends State<AddNews> {
   late TextEditingController newsTitleController;
 
   late TextEditingController authorController;
@@ -68,7 +60,7 @@ class _EditNewsState extends State<EditNews> {
     String link = linkController.text;
     Timestamp date = Timestamp.now();
 
-    NewsModel editedNews = NewsModel(
+    NewsModel newNews = NewsModel(
         author: author,
         date: date,
         description: description,
@@ -79,12 +71,12 @@ class _EditNewsState extends State<EditNews> {
 
     if(
     title != "" &&
-        author != "" &&
-        imgUrl != "" &&
-        description != "" &&
-        link != ""
+    author != "" &&
+    imgUrl != "" &&
+    description != "" &&
+    link != ""
     ) {
-      _dbService.updateNews(widget.id, editedNews);
+      _dbService.addNews(newNews);
       Navigator.of(context).pop();
     } else {
 
@@ -112,7 +104,7 @@ class _EditNewsState extends State<EditNews> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              "Edit News",
+              "Add News",
               style: TextStyle(
                 fontSize: 12,
                 fontFamily: "Poppins",
@@ -134,7 +126,6 @@ class _EditNewsState extends State<EditNews> {
               controller: newsTitleController,
             ),
             TextField(
-
               style: const TextStyle(fontFamily: "Poppins",
                   fontSize: 12,
                   fontWeight: FontWeight.w600),
@@ -192,7 +183,7 @@ class _EditNewsState extends State<EditNews> {
                     child: FilledButton(
                       onPressed: submit,
                       child: const Text(
-                        "Edit",
+                        "Add",
                         style: TextStyle(
                           fontFamily: "Poppins",
                           fontSize: 12,

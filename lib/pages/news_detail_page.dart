@@ -1,24 +1,34 @@
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:movie_app/firebase_services/db_service.dart";
 import "package:movie_app/widgets/edit_news.dart";
 import "package:url_launcher/url_launcher.dart";
 
 class NewsDetailPage extends StatelessWidget {
   final String newsTitle;
   final String author;
-  final String date;
+  final Timestamp date;
   final String link;
   final String text;
   final String imgUrl;
+  final String id;
 
-  const NewsDetailPage({
+  NewsDetailPage({
     super.key,
     required this.newsTitle,
     required this.author,
     required this.date,
     required this.link,
     required this.text,
-    required this.imgUrl
+    required this.imgUrl,
+    required this.id
   });
+
+  final DBService _dbService = DBService();
+
+  void deleteNews() {
+    _dbService.deleteNews(id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +87,7 @@ class NewsDetailPage extends StatelessWidget {
                             link: link,
                             text: text,
                             imgUrl: imgUrl,
+                            id: id
                           );
                         },
                       );
@@ -89,7 +100,7 @@ class NewsDetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: GestureDetector(
-                      onTap: (){},
+                      onTap: deleteNews,
                       child: const Icon(
                         Icons.delete,
                         color: Color(0xFFC7C8CC)

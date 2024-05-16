@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/pages/news_list_page.dart';
+
+
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:movie_app/pages/movie.dart";
 
@@ -26,6 +28,12 @@ Future<void> main() async {
   runApp(MyApp(
     token: prefs.getString('token'),
   ));
+=======
+void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  runApp(MyApp(token: prefs.getString('token'),));
 }
 
 class MyApp extends StatelessWidget {

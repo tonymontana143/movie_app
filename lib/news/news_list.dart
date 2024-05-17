@@ -26,10 +26,10 @@ class NewssListPage extends StatelessWidget {
           )
         ],
         title: const Text(
-          "Список новостей",
+          "News list",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.purple[900],
+        backgroundColor: Colors.grey,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('news').snapshots(),
@@ -58,14 +58,7 @@ class NewssListPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       child: Image.network(
                         news['imgUrl'] as String,
-                        errorBuilder: (context, error, stackTrace) {
-                          // Default image if there is an error loading the image
-                          return Image.network(
-                            "https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/1a697a67-d844-42ba-b367-071c4a581462/280x420",
-                            width: 60,
-                            height: 60,
-                          );
-                        },
+
                       ),
                     ),
                     onLongPress: () {
@@ -73,18 +66,18 @@ class NewssListPage extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Удаление новости'),
+                            title: const Text('Delet news'),
                             content: const Text(
-                                'Вы уверены, что хотите удалить эту новость?'),
+                                'Are you sure?'),
                             actions: <Widget>[
                               TextButton(
-                                child: const Text('Отмена'),
+                                child: const Text('Cancel'),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
                               TextButton(
-                                child: const Text('Удалить'),
+                                child: const Text('Delete'),
                                 onPressed: () {
                                   FirebaseFirestore.instance
                                       .collection('news')

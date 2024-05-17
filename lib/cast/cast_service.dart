@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 class CastService {
@@ -15,7 +14,8 @@ class CastService {
   static Future<void> addCast(Map<String, dynamic> castData) async {
     final response = await http.post(
       Uri.parse('http://172.20.10.3:3000/cast'),
-      body: castData,
+      body: json.encode(castData),
+      headers: {'Content-Type': 'application/json'},
     );
     if (response.statusCode != 201) {
       throw Exception('Failed to add cast member');
@@ -25,10 +25,20 @@ class CastService {
   static Future<void> updateCast(String castId, Map<String, dynamic> castData) async {
     final response = await http.put(
       Uri.parse('http://172.20.10.3:3000/cast/$castId'),
-      body: castData,
+      body: json.encode(castData),
+      headers: {'Content-Type': 'application/json'},
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to update cast member');
+    }
+  }
+
+  static Future<void> deleteCast(String castId) async {
+    final response = await http.delete(
+      Uri.parse('http://172.20.10.3:3000/cast/$castId'),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete cast member');
     }
   }
 }

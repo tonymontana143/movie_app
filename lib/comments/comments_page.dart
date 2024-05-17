@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'comment.dart';
 import 'comment_service.dart';
 
+
 class CommentsPage extends StatefulWidget {
   @override
   _CommentsPageState createState() => _CommentsPageState();
 }
 
 class _CommentsPageState extends State<CommentsPage> {
-  TextEditingController _textEditingController = TextEditingController();
   List<Comment> _comments = [];
 
   @override
@@ -72,14 +72,14 @@ class _CommentsPageState extends State<CommentsPage> {
               onPressed: () => _deleteComment(comment.id),
             ),
             onTap: () async {
-              final updatedText = await showDialog(
+              final newText = await showDialog(
                 context: context,
                 builder: (context) {
+                  TextEditingController controller = TextEditingController(text: comment.text);
                   return AlertDialog(
                     title: Text('Edit Comment'),
                     content: TextField(
-                      controller: TextEditingController(text: comment.text),
-                      onChanged: (value) => setState(() {}),
+                      controller: controller,
                     ),
                     actions: <Widget>[
                       ElevatedButton(
@@ -87,15 +87,15 @@ class _CommentsPageState extends State<CommentsPage> {
                         child: Text('Cancel'),
                       ),
                       ElevatedButton(
-                        onPressed: () => Navigator.pop(context, _textEditingController.text),
+                        onPressed: () => Navigator.pop(context, controller.text),
                         child: Text('Save'),
                       ),
                     ],
                   );
                 },
               );
-              if (updatedText != null) {
-                _updateComment(comment.id, updatedText);
+              if (newText != null) {
+                _updateComment(comment.id, newText);
               }
             },
           );
@@ -106,11 +106,11 @@ class _CommentsPageState extends State<CommentsPage> {
           final text = await showDialog(
             context: context,
             builder: (context) {
+              TextEditingController controller = TextEditingController();
               return AlertDialog(
                 title: Text('Add Comment'),
                 content: TextField(
-                  controller: _textEditingController,
-                  onChanged: (value) => setState(() {}),
+                  controller: controller,
                 ),
                 actions: <Widget>[
                   ElevatedButton(
@@ -118,7 +118,7 @@ class _CommentsPageState extends State<CommentsPage> {
                     child: Text('Cancel'),
                   ),
                   ElevatedButton(
-                    onPressed: () => Navigator.pop(context, _textEditingController.text),
+                    onPressed: () => Navigator.pop(context, controller.text),
                     child: Text('Add'),
                   ),
                 ],

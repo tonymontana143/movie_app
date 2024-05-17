@@ -1,31 +1,65 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class UpdateCastPage extends StatelessWidget {
+class UpdateCastPage extends StatefulWidget {
   final String castId;
+
+  UpdateCastPage({required this.castId});
+
+  @override
+  _UpdateCastPageState createState() => _UpdateCastPageState();
+}
+
+class _UpdateCastPageState extends State<UpdateCastPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _imgUrlController = TextEditingController();
   final TextEditingController _roleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  UpdateCastPage({required this.castId});
+  @override
+  void initState() {
+    super.initState();
+    _fetchCastDetails();
+  }
+
+  Future<void> _fetchCastDetails() async {
+    final response = await http.get(Uri.parse('http://172.20.10.3:3000/cast/${widget.castId}'));
+    if (response.statusCode == 200) {
+      final cast = json.decode(response.body);
+      setState(() {
+        _nameController.text = cast['name'];
+        _surnameController.text = cast['surname'];
+        _imgUrlController.text = cast['imgUrl'];
+        _roleController.text = cast['role'];
+        _descriptionController.text = cast['description'];
+      });
+    } else {
+      // Handle error
+    }
+  }
 
   Future<void> updateCast(BuildContext context) async {
     final response = await http.put(
-      Uri.parse('http://172.20.10.3:3000/cast/$castId'),
-      body: {
-        'name': _nameController.text ?? '',
-        'surname': _surnameController.text ?? '',
-        'imgUrl': _imgUrlController.text ?? '',
-        'role': _roleController.text ?? '',
-        'description': _descriptionController.text ?? '',
-      },
+      Uri.parse('http://172.20.10.3:3000/cast/${widget.castId}'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'name': _nameController.text,
+        'surname': _surnameController.text,
+        'imgUrl': _imgUrlController.text,
+        'role': _roleController.text,
+        'description': _descriptionController.text,
+      }),
     );
     if (response.statusCode == 200) {
       Navigator.pop(context);
     } else {
       // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update cast member')),
+      );
     }
   }
 

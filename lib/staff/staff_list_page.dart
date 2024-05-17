@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'add_staff_page.dart'; // Update with your actual package name
-import 'staff_detail_page.dart'; // Update with your actual package name
-import 'update_staff_page.dart'; // Update with your actual package name
+import 'add_staff_page.dart';
+import 'staff_detail_page.dart';
+import 'update_staff_page.dart';
+import 'staff_service.dart'; // Make sure to import your service class
 
 class StaffListPage extends StatefulWidget {
   @override
@@ -21,15 +22,20 @@ class _StaffListPageState extends State<StaffListPage> {
 
   Future<void> fetchStaffList() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://172.20.10.3:3000/staff'));
-      if (response.statusCode == 200) {
-        setState(() {
-          staffList = json.decode(response.body);
-        });
-      } else {
-        throw Exception('Failed to load staff list');
-      }
+      final staff = await StaffService.fetchStaffList();
+      setState(() {
+        staffList = staff;
+      });
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
+    }
+  }
+
+  Future<void> deleteStaff(String staffId) async {
+    try {
+      await StaffService.deleteStaff(staffId);
+      fetchStaffList(); // Refresh the list after deletion
     } catch (e) {
       print('Error: $e');
       // Handle error
@@ -62,7 +68,7 @@ class _StaffListPageState extends State<StaffListPage> {
               );
             },
             onLongPress: () {
-              _showUpdateDialog(context, staffList[index]['_id']);
+              _showOptionsDialog(context, staffList[index]['_id']);
             },
           );
         },
@@ -81,20 +87,14 @@ class _StaffListPageState extends State<StaffListPage> {
     );
   }
 
-  void _showUpdateDialog(BuildContext context, String staffId) {
+  void _showOptionsDialog(BuildContext context, String staffId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Update Staff'),
-          content: Text('Do you want to update this staff member?'),
+          title: Text('Options'),
+          content: Text('What do you want to do with this staff member?'),
           actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -108,6 +108,46 @@ class _StaffListPageState extends State<StaffListPage> {
                 });
               },
               child: Text('Update'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showDeleteConfirmationDialog(context, staffId);
+              },
+              child: Text('Delete'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, String staffId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Staff'),
+          content: Text('Are you sure you want to delete this staff member?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                deleteStaff(staffId);
+              },
+              child: Text('Delete'),
             ),
           ],
         );

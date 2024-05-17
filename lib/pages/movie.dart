@@ -4,6 +4,7 @@ import 'package:movie_app/events/event_list_page.dart';
 import 'package:movie_app/comments/comments_page.dart';
 import 'package:movie_app/news/news_list.dart';
 import 'package:movie_app/staff/staff_list_page.dart';
+import 'package:movie_app/widgets/trailer_button.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
 import 'dart:ui';
 
@@ -46,53 +47,35 @@ class MoviePage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Rise of the Planet of the Apes',
-                                style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFC7C8CC)
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: Colors.white.withOpacity(0.1), // Adjust the opacity to control the blur effect
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      _launchURL('https://www.youtube.com/watch?v=P1yKN0llkrY&t=4s');
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent, // Make button background transparent
-                                      shadowColor: Colors.transparent, // Make button shadow transparent
-                                      elevation: 0, // Remove the elevation
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20.0), // Set the button shape
-                                      ),
-                                    ),
-                                    child: const Text(
-                                        'TRAILER',
-                                        style: TextStyle(
-                                          fontFamily: "Poppins",
-                                          color: Color(0xFFEEEEEE),
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 1.2
-                                        )
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+  padding: const EdgeInsets.all(8.0),
+  child: Column(
+    children: [
+      const Text(
+        'Rise of the Planet of the Apes',
+        style: TextStyle(
+          fontFamily: "Poppins",
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFFC7C8CC),
+        ),
+      ),
+      const SizedBox(height: 10),
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: Colors.white.withOpacity(0.1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5.0),
+          child: TrailerButton(
+            trailerLink: 'https://www.youtube.com/watch?v=P1yKN0llkrY&t=4s',
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -243,14 +226,19 @@ class MoviePage extends StatelessWidget {
   }
 
   // Function to launch URL
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+ void _launchURL(String url) async {
+  try {
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
       throw 'Could not launch $url';
     }
+  } catch (e) {
+    print('Error launching URL: $e');
+    // Handle the error here, e.g., show a dialog or display a snackbar
   }
+}
+
 }
 
 class ActorWidget extends StatelessWidget {

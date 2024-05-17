@@ -58,13 +58,6 @@ class NewsDetailsPage extends StatelessWidget {
               children: [
                 Image.network(
                   newsData['imgUrl'],
-                  errorBuilder: (context, error, stackTrace) {
-                    // Default image if there is an error loading the image
-                    return Image.network(
-                      "https://upload.wikimedia.org/wikipedia/commons/2/2d/Brian_Cox_%282016%29_-_01.jpg",
-                      fit: BoxFit.cover,
-                    );
-                  },
                 ),
                 const SizedBox(height: 8),
                 Text(

@@ -60,8 +60,8 @@ const CastController = require('../controller/cast.controller');
 
 router.post('/', CastController.createCast);
 router.get('/', CastController.getCasts);
-router.put('/updateCast/:id', CastController.updateCast);
-router.delete('/deleteCast/:id', CastController.deleteCast);
+router.put('/:id', CastController.updateCast);
+router.delete('/:id', CastController.deleteCast);
 
 module.exports = router;
 

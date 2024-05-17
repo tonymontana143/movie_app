@@ -21,5 +21,14 @@ class StaffService {
     }
   }
 
+  static Future<void> deleteStaff(String staffId) async {
+    final response = await http.delete(
+      Uri.parse('http://172.20.10.3:3000/staff/$staffId'),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete staff member');
+    }
+  }
+
   // Add more methods as needed
 }

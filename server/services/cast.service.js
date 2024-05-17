@@ -1,41 +1,41 @@
 const Staff = require('../model/staff_model');
 
-class StaffService {
-  static async createStaff(id, name, surname, imgUrl, role, description) {
+class CastService {
+  static async createCast(id, name, surname, imgUrl, role, description) {
     try {
-      const staff = new Staff({ id, name, surname, imgUrl, role, description });
-      await staff.save();
-      return staff;
+      const cast = new Cast({ id, name, surname, imgUrl, role, description });
+      await cast.save();
+      return cast;
     } catch (error) {
       throw new Error('Error creating staff: ' + error.message);
     }
   }
 
-  static async getStaffs() {
+  static async getCast() {
     try {
-      const staffs = await Staff.find();
-      return staffs;
+      const casts = await Staff.find();
+      return casts;
     } catch (error) {
       throw new Error('Error fetching staffs: ' + error.message);
     }
   }
 
-  static async updateStaff(id, name, surname, imgUrl, role, description) {
+  static async updateCast(id, name, surname, imgUrl, role, description) {
     try {
-      const staff = await Staff.findByIdAndUpdate(id, { name, surname, imgUrl, role, description }, { new: true });
-      if (!staff) {
+      const cast = await Staff.findByIdAndUpdate(id, { name, surname, imgUrl, role, description }, { new: true });
+      if (!cast) {
         throw new Error('Staff not found');
       }
-      return staff;
+      return cast;
     } catch (error) {
       throw new Error('Error updating staff: ' + error.message);
     }
   }
 
-  static async deleteStaff(id) {
+  static async deleteCast(id) {
     try {
-      const staff = await Staff.findByIdAndDelete(id);
-      if (!staff) {
+      const cast = await Staff.findByIdAndDelete(id);
+      if (!cast) {
         throw new Error('Staff not found');
       }
       return { message: 'Staff deleted successfully' };
@@ -45,4 +45,4 @@ class StaffService {
   }
 }
 
-module.exports = StaffService;
+module.exports = CastService;

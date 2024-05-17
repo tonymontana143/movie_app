@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:movie_app/cast/update_cast_page.dart';
+import 'cast_service.dart';
 import 'add_cast_page.dart';
 import 'cast_detail_page.dart';
+
 
 class CastListPage extends StatefulWidget {
   @override
@@ -20,15 +21,20 @@ class _CastListPageState extends State<CastListPage> {
 
   Future<void> fetchCastList() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://172.20.10.3:3000/cast'));
-      if (response.statusCode == 200) {
-        setState(() {
-          castList = json.decode(response.body);
-        });
-      } else {
-        throw Exception('Failed to load cast list');
-      }
+      final cast = await CastService.fetchCastList();
+      setState(() {
+        castList = cast;
+      });
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
+    }
+  }
+
+  Future<void> deleteCast(String castId) async {
+    try {
+      await CastService.deleteCast(castId);
+      fetchCastList(); // Refresh the list after deletion
     } catch (e) {
       print('Error: $e');
       // Handle error
@@ -60,6 +66,9 @@ class _CastListPageState extends State<CastListPage> {
                 ),
               );
             },
+            onLongPress: () {
+              _showOptionsDialog(context, castList[index]['_id']);
+            },
           );
         },
       ),
@@ -74,6 +83,74 @@ class _CastListPageState extends State<CastListPage> {
         },
         child: Icon(Icons.add),
       ),
+    );
+  }
+
+  void _showOptionsDialog(BuildContext context, String castId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Options'),
+          content: Text('What do you want to do with this cast member?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdateCastPage(castId: castId),
+                  ),
+                ).then((_) {
+                  fetchCastList();
+                });
+              },
+              child: Text('Update'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showDeleteConfirmationDialog(context, castId);
+              },
+              child: Text('Delete'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, String castId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Cast'),
+          content: Text('Are you sure you want to delete this cast member?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                deleteCast(castId);
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

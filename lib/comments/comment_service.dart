@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'comment.dart';
+
+
 class CommentService {
   static final Uri baseUrl = Uri.parse('http://172.20.10.3:3000/comments');
 
@@ -37,7 +39,6 @@ class CommentService {
       throw Exception('Failed to update comment');
     }
   }
-  
 
   static Future<void> deleteComment(String id) async {
     final response = await http.delete(Uri.parse('$baseUrl/$id'));

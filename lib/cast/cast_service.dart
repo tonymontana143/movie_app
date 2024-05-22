@@ -13,7 +13,7 @@ class CastService {
 
   static Future<void> addCast(Map<String, dynamic> castData) async {
     final response = await http.post(
-      Uri.parse('http://172.20.10.3:3000/cast'),
+      Uri.parse('https://server-for-flutter-app-2.onrender.com/cast'),
       body: json.encode(castData),
       headers: {'Content-Type': 'application/json'},
     );
@@ -24,7 +24,7 @@ class CastService {
 
   static Future<void> updateCast(String castId, Map<String, dynamic> castData) async {
     final response = await http.put(
-      Uri.parse('http://172.20.10.3:3000/cast/$castId'),
+      Uri.parse('https://server-for-flutter-app-2.onrender.com/cast/$castId'),
       body: json.encode(castData),
       headers: {'Content-Type': 'application/json'},
     );
@@ -35,7 +35,7 @@ class CastService {
 
   static Future<void> deleteCast(String castId) async {
     final response = await http.delete(
-      Uri.parse('http://172.20.10.3:3000/cast/$castId'),
+      Uri.parse('https://server-for-flutter-app-2.onrender.com/cast/$castId'),
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to delete cast member');

@@ -4,7 +4,7 @@ import 'comment.dart';
 
 
 class CommentService {
-  static final Uri baseUrl = Uri.parse('http://172.20.10.3:3000/comments');
+  static final Uri baseUrl = Uri.parse('https://server-for-flutter-app-2.onrender.com/comments');
 
   static Future<List<Comment>> fetchComments() async {
     final response = await http.get(baseUrl);

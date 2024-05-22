@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:movie_app/new_news/news_page.dart';
 import 'package:movie_app/pages/movie.dart';
 
 import 'firebase_options.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/cast/cast_list_page.dart';
 import 'package:movie_app/events/event_list_page.dart';
 import 'package:movie_app/comments/comments_page.dart';
-import 'package:movie_app/news/news_list.dart';
+import 'package:movie_app/new_news/news_page.dart';
 import 'package:movie_app/staff/staff_list_page.dart';
 import 'package:movie_app/widgets/trailer_button.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
@@ -334,7 +334,7 @@ class NewsListButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => NewssListPage()),
+          MaterialPageRoute(builder: (context) => NewsPage()),
         );
       },
       style: ElevatedButton.styleFrom(

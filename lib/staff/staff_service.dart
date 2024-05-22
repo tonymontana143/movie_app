@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class StaffService {
   static Future<List<dynamic>> fetchStaffList() async {
-    final response = await http.get(Uri.parse('http://172.20.10.3:3000/staff'));
+    final response = await http.get(Uri.parse('https://server-for-flutter-app-2.onrender.com/staff'));
     if (response.statusCode == 200) {
       return List<dynamic>.from(json.decode(response.body));
     } else {
@@ -13,7 +13,7 @@ class StaffService {
 
   static Future<void> addStaff(Map<String, dynamic> staffData) async {
     final response = await http.post(
-      Uri.parse('http://172.20.10.3:3000/staff'),
+      Uri.parse('https://server-for-flutter-app-2.onrender.com/staff'),
       body: staffData,
     );
     if (response.statusCode != 201) {
@@ -23,7 +23,7 @@ class StaffService {
 
   static Future<void> deleteStaff(String staffId) async {
     final response = await http.delete(
-      Uri.parse('http://172.20.10.3:3000/staff/$staffId'),
+      Uri.parse('https://server-for-flutter-app-2.onrender.com/staff/$staffId'),
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to delete staff member');

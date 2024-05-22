@@ -4,7 +4,7 @@ import 'event.dart';
 
 
 class EventService {
-  static const String baseUrl = 'http://172.20.10.3:3000/events';
+  static const String baseUrl = 'https://server-for-flutter-app-2.onrender.com/events';
 
   static Future<List<Event>> getEvents() async {
     try {

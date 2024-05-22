@@ -26,7 +26,7 @@ class _UpdateCastPageState extends State<UpdateCastPage> {
   }
 
   Future<void> _fetchCastDetails() async {
-    final response = await http.get(Uri.parse('http://172.20.10.3:3000/cast/${widget.castId}'));
+    final response = await http.get(Uri.parse('https://server-for-flutter-app-2.onrender.com/cast/${widget.castId}'));
     if (response.statusCode == 200) {
       final cast = json.decode(response.body);
       setState(() {

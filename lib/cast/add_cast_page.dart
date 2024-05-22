@@ -12,7 +12,7 @@ class AddCastPage extends StatelessWidget {
   Future<void> addCast(BuildContext context) async {
     try {
       final response = await http.post(
-        Uri.parse('http://172.20.10.3:3000/cast'),
+        Uri.parse('https://server-for-flutter-app-2.onrender.com//cast'),
         body: {
           'name': _nameController.text ?? '',
           'surname': _surnameController.text ?? '',

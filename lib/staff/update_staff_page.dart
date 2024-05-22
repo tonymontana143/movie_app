@@ -11,7 +11,7 @@ class UpdateStaffPage extends StatelessWidget {
 
   Future<void> updateStaff(BuildContext context) async {
     final response = await http.put(
-      Uri.parse('http://172.20.10.3:3000/staff/$staffId'),
+      Uri.parse('https://server-for-flutter-app-2.onrender.com/staff/$staffId'),
       body: {
         'name': _nameController.text ?? '',
         'surname': _surnameController.text ?? '',

@@ -10,7 +10,7 @@ class AddStaffPage extends StatelessWidget {
   Future<void> addStaff(BuildContext context) async {
     try {
       final response = await http.post(
-        Uri.parse('http://172.20.10.3:3000/staff'),
+        Uri.parse('https://server-for-flutter-app-2.onrender.com/staff'),
         body: {
           'name': _nameController.text ?? '',
           'surname': _surnameController.text ?? '',

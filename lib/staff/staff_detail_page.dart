@@ -8,12 +8,13 @@ class StaffDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = staffDetails['name'] ?? '';
-    final surname = staffDetails['surname'] ?? '';
     final position = staffDetails['position'] ?? '';
+    final department = staffDetails['department'] ?? '';
+    final description = staffDetails['description'] ?? '';
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$name $surname Details'),
+        title: Text('$name $position Details'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -21,10 +22,13 @@ class StaffDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Name: $name $surname',
+              'Name: $name $position',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            Text('Position: $position'),
+            Text('Department: $department'),
+            SizedBox(height: 10),
+
+            Text('Description: $description'),
           ],
         ),
       ),

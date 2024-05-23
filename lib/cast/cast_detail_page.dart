@@ -10,7 +10,6 @@ class CastDetailPage extends StatelessWidget {
     final name = castDetails['name'] ?? '';
     final surname = castDetails['surname'] ?? '';
     final role = castDetails['role'] ?? '';
-    final imgUrl = castDetails['imgUrl'] ?? '';
     final description = castDetails['description'] ?? '';
 
     return Scaffold(
@@ -28,14 +27,7 @@ class CastDetailPage extends StatelessWidget {
             ),
             Text('Role: $role'),
             SizedBox(height: 10),
-            if (imgUrl.isNotEmpty)
-              Image.network(
-                imgUrl,
-                width: 200,
-                height: 200,
-                fit: BoxFit.cover,
-              ),
-            SizedBox(height: 10),
+
             Text('Description: $description'),
           ],
         ),

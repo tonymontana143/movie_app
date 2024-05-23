@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/cast/update_cast_page.dart';
 import 'cast_service.dart';
-import 'add_cast_page.dart';
 import 'cast_detail_page.dart';
-
-
 class CastListPage extends StatefulWidget {
   @override
   _CastListPageState createState() => _CastListPageState();
@@ -19,6 +15,7 @@ class _CastListPageState extends State<CastListPage> {
     fetchCastList();
   }
 
+
   Future<void> fetchCastList() async {
     try {
       final cast = await CastService.fetchCastList();
@@ -31,6 +28,30 @@ class _CastListPageState extends State<CastListPage> {
     }
   }
 
+  Future<void> createCast(Map<String, String?> cast) async {
+    try {
+      await CastService.createCast(_convertToNonNull(cast));
+      fetchCastList(); // Refresh the list after creation
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
+    }
+  }
+
+  Future<void> updateCast(String id, Map<String, String?> updatedCast) async {
+    try {
+      await CastService.updateCast(id, _convertToNonNull(updatedCast));
+      fetchCastList(); // Refresh the list after update
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
+    }
+  }
+
+  Map<String, String> _convertToNonNull(Map<String, String?> nullableMap) {
+    return nullableMap.map((key, value) => MapEntry(key, value ?? ''));
+  }
+
   Future<void> deleteCast(String castId) async {
     try {
       await CastService.deleteCast(castId);
@@ -39,6 +60,74 @@ class _CastListPageState extends State<CastListPage> {
       print('Error: $e');
       // Handle error
     }
+  }
+
+  void _showEditDialog(BuildContext context, String id, Map<String, dynamic> currentData) {
+    TextEditingController nameController = TextEditingController(text: currentData['name'] ?? '');
+    TextEditingController surnameController = TextEditingController(text: currentData['surname'] ?? '');
+    TextEditingController roleController = TextEditingController(text: currentData['role'] ?? '');
+    TextEditingController descriptionController = TextEditingController(text: currentData['description'] ?? '');
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Cast'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(controller: nameController, decoration: InputDecoration(labelText: 'Name')),
+              TextField(controller: surnameController, decoration: InputDecoration(labelText: 'Surname')),
+              TextField(controller: roleController, decoration: InputDecoration(labelText: 'Role')),
+              TextField(controller: descriptionController, decoration: InputDecoration(labelText: 'Description')),
+            ],
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                updateCast(id, {
+                  'name': nameController.text,
+                  'surname': surnameController.text,
+                  'role': roleController.text,
+                  'description': descriptionController.text,
+                });
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, String castId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Delete Cast'),
+          content: Text('Are you sure you want to delete this cast member?'),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                deleteCast(castId);
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -50,107 +139,78 @@ class _CastListPageState extends State<CastListPage> {
       body: ListView.builder(
         itemCount: castList.length,
         itemBuilder: (context, index) {
-          final name = castList[index]['name'] ?? '';
-          final surname = castList[index]['surname'] ?? '';
-          final role = castList[index]['role'] ?? '';
+          final cast = castList[index];
           return ListTile(
-            title: Text('$name $surname'),
-            subtitle: Text(role),
+            title: Text('${cast['name'] ?? ''} ${cast['surname'] ?? ''}'),
+            subtitle: Text(cast['role'] ?? ''),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CastDetailPage(
-                    castDetails: castList[index],
-                  ),
+                  builder: (context) => CastDetailPage(castDetails: cast),
                 ),
               );
             },
             onLongPress: () {
-              _showOptionsDialog(context, castList[index]['_id']);
+              _showEditDialog(context, cast['_id'], cast);
             },
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                _showDeleteConfirmationDialog(context, cast['_id']);
+              },
+            ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddCastPage()),
-          ).then((_) {
-            fetchCastList();
-          });
+          TextEditingController nameController = TextEditingController();
+          TextEditingController surnameController = TextEditingController();
+          TextEditingController imgUrlController = TextEditingController();
+          TextEditingController roleController = TextEditingController();
+          TextEditingController descriptionController = TextEditingController();
+
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Add Cast'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(controller: nameController, decoration: InputDecoration(labelText: 'Name')),
+                    TextField(controller: surnameController, decoration: InputDecoration(labelText: 'Surname')),
+                    TextField(controller: imgUrlController, decoration: InputDecoration(labelText: 'Image URL')),
+                    TextField(controller: roleController, decoration: InputDecoration(labelText: 'Role')),
+                    TextField(controller: descriptionController, decoration: InputDecoration(labelText: 'Description')),
+                  ],
+                ),
+                actions: <Widget>[
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      createCast({
+                        'name': nameController.text,
+                        'surname': surnameController.text,
+                        'imgUrl': imgUrlController.text,
+                        'role': roleController.text,
+                        'description': descriptionController.text,
+                      });
+                    },
+                    child: Text('Add'),
+                  ),
+                ],
+              );
+            },
+          );
         },
         child: Icon(Icons.add),
       ),
-    );
-  }
-
-  void _showOptionsDialog(BuildContext context, String castId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Options'),
-          content: Text('What do you want to do with this cast member?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UpdateCastPage(castId: castId),
-                  ),
-                ).then((_) {
-                  fetchCastList();
-                });
-              },
-              child: Text('Update'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _showDeleteConfirmationDialog(context, castId);
-              },
-              child: Text('Delete'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, String castId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete Cast'),
-          content: Text('Are you sure you want to delete this cast member?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                deleteCast(castId);
-              },
-              child: Text('Delete'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

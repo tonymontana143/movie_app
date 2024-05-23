@@ -1,171 +1,187 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'database_helper.dart';
+import 'package:http/http.dart' as http;
+import 'package:movie_app/new_news/sql_helper.dart';
 
 class NewsPage extends StatefulWidget {
+  const NewsPage({Key? key}) : super(key: key);
+
   @override
   _NewsPageState createState() => _NewsPageState();
 }
-
 class _NewsPageState extends State<NewsPage> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
+  List<Map<String, dynamic>> _journals = [];
+  bool _isLoading = true;
 
-  List<Map<String, dynamic>> _newsList = [];
+  void _refreshJournals() async {
+    try {
+      // Fetch data from the local database
+      final localData = await SQLHelper.getItems();
+      setState(() {
+        _journals = localData;
+        _isLoading = false;
+      });
+
+      // If local data is empty, fetch data from the server
+      if (_journals.isEmpty) {
+        final response =
+            await http.get(Uri.parse('https://server-for-flutter-app-2.onrender.com/news'));
+        if (response.statusCode == 200) {
+          final List<dynamic> responseData = json.decode(response.body);
+          for (final item in responseData) {
+            final title = item['title'] ?? '';
+            final description = item['description'] ?? '';
+            await SQLHelper.createItem(title, description);
+          }
+          // Fetch and set data from the local database again
+          final updatedData = await SQLHelper.getItems();
+          setState(() {
+            _journals = updatedData;
+          });
+        } else {
+          throw Exception('Failed to fetch data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _fetchNews();
+    _refreshJournals();
   }
 
-  void _fetchNews() async {
-    List<Map<String, dynamic>> news = await DatabaseHelper().getNews();
-    setState(() {
-      _newsList = news;
-    });
-  }
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
-  void _addNews() async {
-    if (_titleController.text.isNotEmpty && _contentController.text.isNotEmpty) {
-      await DatabaseHelper().insertNews({
-        'title': _titleController.text,
-        'content': _contentController.text,
-      });
-      _fetchNews();
-      _titleController.clear();
-      _contentController.clear();
+  void _showForm(int? id) async {
+    if (id != null) {
+      final existingJournal =
+          _journals.firstWhere((element) => element['id'] == id);
+      _titleController.text = existingJournal['title'];
+      _descriptionController.text = existingJournal['description'];
+    } else {
+      _titleController.text = '';
+      _descriptionController.text = '';
     }
-  }
 
-  void _deleteNews(int id) async {
-    await DatabaseHelper().deleteNews(id);
-    _fetchNews();
-  }
-
-  void _updateNews(int id) async {
-    Map<String, dynamic> newsToUpdate = _newsList.firstWhere((news) => news['id'] == id, orElse: () => {});
-    if (newsToUpdate.isNotEmpty) {
-      final TextEditingController _updateTitleController = TextEditingController(text: newsToUpdate['title']);
-      final TextEditingController _updateContentController = TextEditingController(text: newsToUpdate['content']);
-
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Update News'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: _updateTitleController,
-                  decoration: InputDecoration(labelText: 'Title'),
-                ),
-                TextField(
-                  controller: _updateContentController,
-                  decoration: InputDecoration(labelText: 'Content'),
-                ),
-              ],
+    showModalBottomSheet(
+      context: context,
+      elevation: 5,
+      isScrollControlled: true,
+      builder: (_) => Container(
+        padding: EdgeInsets.only(
+          top: 15,
+          left: 15,
+          right: 15,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 120,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(hintText: 'Title'),
             ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Map<String, dynamic> updatedNews = {
-                    'id': id,
-                    'title': _updateTitleController.text,
-                    'content': _updateContentController.text,
-                  };
-                  await DatabaseHelper().updateNews(id, updatedNews);
-                  _fetchNews();
-                  Navigator.pop(context);
-                },
-                child: Text('Update'),
-              ),
-            ],
-          );
-        },
-      );
-    }
+            const SizedBox(
+              height: 10,
+            ),
+            TextField(
+              controller: _descriptionController,
+              decoration: const InputDecoration(hintText: 'Description'),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (_titleController.text.isNotEmpty) {
+                  if (id == null) {
+                    await _addItem();
+                  } else {
+                    await _updateItem(id);
+                  }
+                  _refreshJournals();
+                  Navigator.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Title cannot be empty!'),
+                  ));
+                }
+              },
+              child: Text(id == null ? 'Create New' : 'Update'),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _addItem() async {
+    String title = _titleController.text ?? '';
+    String description = _descriptionController.text ?? '';
+    await SQLHelper.createItem(title, description);
+  }
+
+  Future<void> _updateItem(int id) async {
+    String title = _titleController.text ?? '';
+    String description = _descriptionController.text ?? '';
+    await SQLHelper.updateItem(id, title, description);
+  }
+
+  void _deleteItem(int id) async {
+    await SQLHelper.deleteItem(id);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Successfully deleted a journal!'),
+    ));
+    _refreshJournals();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Page'),
+        title: const Text('SQL'),
       ),
-      body: ListView.builder(
-        itemCount: _newsList.length,
-        itemBuilder: (context, index) {
-          final news = _newsList[index];
-          return ListTile(
-            title: Text(news['title']),
-            subtitle: Text(news['content']),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    _updateNews(news['id']);
-                  },
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemCount: _journals.length,
+              itemBuilder: (context, index) => Card(
+                color: Colors.orange[200],
+                margin: const EdgeInsets.all(15),
+                child: ListTile(
+                  title: Text(_journals[index]['title'] ?? ''),
+                  subtitle: Text(_journals[index]['description'] ?? ''),
+                  trailing: SizedBox(
+                    width: 100,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () =>
+                              _showForm(_journals[index]['id']),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () =>
+                              _deleteItem(_journals[index]['id']),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    _deleteNews(news['id']);
-                  },
-                ),
-              ],
+              ),
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Add News'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: _titleController,
-                      decoration: InputDecoration(labelText: 'Title'),
-                    ),
-                    TextField(
-                      controller: _contentController,
-                      decoration: InputDecoration(labelText: 'Content'),
-                    ),
-                  ],
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Cancel'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _addNews();
-                      Navigator.pop(context);
-                    },
-                    child: Text('Add'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
+        onPressed: () => _showForm(null),
       ),
     );
   }

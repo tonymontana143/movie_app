@@ -52,10 +52,15 @@ dependencies:
   flutter_riverpod: ^2.5.1
   sqflite: ^2.3.3+1
   path: ^1.9.0
-  
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  intl:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+    
+  hive_generator: ^1.0.0
+  build_runner: ^2.0.0  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

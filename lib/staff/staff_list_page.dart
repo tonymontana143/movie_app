@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'add_staff_page.dart';
+import 'staff_service.dart';
 import 'staff_detail_page.dart';
-import 'update_staff_page.dart';
-import 'staff_service.dart'; // Make sure to import your service class
 
 class StaffListPage extends StatefulWidget {
   @override
@@ -32,6 +28,30 @@ class _StaffListPageState extends State<StaffListPage> {
     }
   }
 
+  Future<void> createStaff(Map<String, String?> staff) async {
+    try {
+      await StaffService.createStaff(_convertToNonNull(staff));
+      fetchStaffList(); // Refresh the list after creation
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
+    }
+  }
+
+  Future<void> updateStaff(String id, Map<String, String?> updatedStaff) async {
+    try {
+      await StaffService.updateStaff(id, _convertToNonNull(updatedStaff));
+      fetchStaffList(); // Refresh the list after update
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
+    }
+  }
+
+  Map<String, String> _convertToNonNull(Map<String, String?> nullableMap) {
+    return nullableMap.map((key, value) => MapEntry(key, value ?? ''));
+  }
+
   Future<void> deleteStaff(String staffId) async {
     try {
       await StaffService.deleteStaff(staffId);
@@ -40,6 +60,74 @@ class _StaffListPageState extends State<StaffListPage> {
       print('Error: $e');
       // Handle error
     }
+  }
+
+  void _showEditDialog(BuildContext context, String id, Map<String, dynamic> currentData) {
+    TextEditingController nameController = TextEditingController(text: currentData['name'] ?? '');
+    TextEditingController positionController = TextEditingController(text: currentData['position'] ?? '');
+    TextEditingController departmentController = TextEditingController(text: currentData['department'] ?? '');
+    TextEditingController descriptionController = TextEditingController(text: currentData['description'] ?? '');
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Staff'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(controller: nameController, decoration: InputDecoration(labelText: 'Name')),
+              TextField(controller: positionController, decoration: InputDecoration(labelText: 'Position')),
+              TextField(controller: departmentController, decoration: InputDecoration(labelText: 'Department')),
+              TextField(controller: descriptionController, decoration: InputDecoration(labelText: 'Description')),
+            ],
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                updateStaff(id, {
+                  'name': nameController.text,
+                  'position': positionController.text,
+                  'department': departmentController.text,
+                  'description': descriptionController.text,
+                });
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, String staffId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Delete Staff'),
+          content: Text('Are you sure you want to delete this staff member?'),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                deleteStaff(staffId);
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -51,107 +139,76 @@ class _StaffListPageState extends State<StaffListPage> {
       body: ListView.builder(
         itemCount: staffList.length,
         itemBuilder: (context, index) {
-          final name = staffList[index]['name'] ?? '';
-          final surname = staffList[index]['surname'] ?? '';
-          final position = staffList[index]['position'] ?? '';
+          final staff = staffList[index];
           return ListTile(
-            title: Text('$name $surname'),
-            subtitle: Text(position),
+            title: Text('${staff['name'] ?? ''} ${staff['position'] ?? ''}'),
+            subtitle: Text(staff['department'] ?? ''),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StaffDetailPage(
-                    staffDetails: staffList[index],
-                  ),
+                  builder: (context) => StaffDetailPage(staffDetails: staff),
                 ),
               );
             },
             onLongPress: () {
-              _showOptionsDialog(context, staffList[index]['_id']);
+              _showEditDialog(context, staff['_id'], staff);
             },
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                _showDeleteConfirmationDialog(context, staff['_id']);
+              },
+            ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddStaffPage()),
-          ).then((_) {
-            fetchStaffList();
-          });
+          TextEditingController nameController = TextEditingController();
+          TextEditingController positionController = TextEditingController();
+          TextEditingController departmentController = TextEditingController();
+          TextEditingController descriptionController = TextEditingController();
+
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Add Staff'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(controller: nameController, decoration: InputDecoration(labelText: 'Name')),
+                    TextField(controller: positionController, decoration: InputDecoration(labelText: 'Position')),
+                    TextField(controller: departmentController, decoration: InputDecoration(labelText: 'Department')),
+                    TextField(controller: descriptionController, decoration: InputDecoration(labelText: 'Description')),
+                  ],
+                ),
+                actions: <Widget>[
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      createStaff({
+                        'name': nameController.text,
+                        'position': positionController.text,
+                        'department': departmentController.text,
+                        'description': descriptionController.text,
+                      });
+                    },
+                    child: Text('Add'),
+                  ),
+                ],
+              );
+            },
+          );
         },
         child: Icon(Icons.add),
       ),
     );
   }
-
-  void _showOptionsDialog(BuildContext context, String staffId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Options'),
-          content: Text('What do you want to do with this staff member?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UpdateStaffPage(staffId: staffId),
-                  ),
-                ).then((_) {
-                  fetchStaffList();
-                });
-              },
-              child: Text('Update'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _showDeleteConfirmationDialog(context, staffId);
-              },
-              child: Text('Delete'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showDeleteConfirmationDialog(BuildContext context, String staffId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete Staff'),
-          content: Text('Are you sure you want to delete this staff member?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                deleteStaff(staffId);
-              },
-              child: Text('Delete'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
+

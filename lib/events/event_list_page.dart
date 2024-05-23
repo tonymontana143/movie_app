@@ -105,6 +105,7 @@ class _EventListPageState extends State<EventListPage> {
           ElevatedButton(
             onPressed: () async {
               if (titleController.text.isNotEmpty) {
+                // ignore: unused_local_variable
                 final newEvent = await EventService.createEvent(titleController.text, _selectedDay);
                 setState(() {
                   futureEvents = EventService.getEvents();
